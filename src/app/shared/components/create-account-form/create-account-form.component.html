@@ -1,0 +1,174 @@
+<form class="create-account-form" (submit)="onSubmit($event)">
+  <dx-radio-group [dataSource]="dataSource" [value]="radioGroupValue" layout="horizontal" width="100%">
+  </dx-radio-group>
+  <dx-form [formData]="formData" [disabled]="loading" [colCountByScreen]="colCountByScreen">
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'نام', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'نام خانوادگی', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'شناسه ملی/ کدملی', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'طرف مقایل', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'نام دوم', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'نماینده', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'تلفن', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'فکس', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'همراه', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'زمینه فعالیت', mode: 'email' }">
+      <dx-select-box [dataSource]="activityData" valueExpr="ID" displayExpr="Name" [searchEnabled]="true"
+        label="زمینه فعالیت" placeholder="" labelMode="floating">
+      </dx-select-box>
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'زمینه فعالیت', mode: 'email' }">
+      <dx-select-box [dataSource]="countryData" valueExpr="ID" displayExpr="Name" [searchEnabled]="true" label="کشور"
+        placeholder="" labelMode="floating">
+      </dx-select-box>
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'زمینه فعالیت', mode: 'email' }">
+      <dx-select-box [dataSource]="provinceData" valueExpr="ID" displayExpr="Name" [searchEnabled]="true" label="استان"
+        placeholder="" labelMode="floating">
+      </dx-select-box>
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'زمینه فعالیت', mode: 'email' }">
+      <dx-select-box [dataSource]="cityData" valueExpr="ID" displayExpr="Name" [searchEnabled]="true" label="شهر"
+        placeholder="" labelMode="floating">
+      </dx-select-box>
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'آدرس', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'کدپستی', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'ایمیل', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <!-- <dxi-item dataField="password" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Password', mode: 'password' }">
+      <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="confirmedPassword" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Confirm Password', mode: 'password' }">
+      <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+      <dxi-validation-rule type="custom" message="Passwords do not match" [validationCallback]="confirmPassword">
+      </dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item> -->
+
+    <!-- <dxi-item>
+      <div class='policy-info'>
+        By creating an account, you agree to the <a routerLink="#">Terms of Service</a> and <a routerLink="#">Privacy
+          Policy</a>
+      </div>
+    </dxi-item> -->
+
+    <dxi-item itemType="button" [colSpan]="2">
+      <dxo-button-options width="100%" type="default" [useSubmitBehavior]="true" [template]="'createAccountTemplate'">
+      </dxo-button-options>
+    </dxi-item>
+
+    <dxi-item [colSpan]="2">
+      <div class="login-link">
+        اکانت کاربری دارید؟ <a routerLink="/login">ورود</a>
+      </div>
+    </dxi-item>
+
+    <ng-container *dxTemplate="let item of 'createAccountTemplate'">
+      <div>
+        <span class="dx-button-text">
+          <ng-container *ngIf="loading; else notLoading">
+            <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
+          </ng-container>
+
+          <ng-template #notLoading>ثبت نام</ng-template>
+        </span>
+      </div>
+    </ng-container>
+
+  </dx-form>
+</form>

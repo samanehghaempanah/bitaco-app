@@ -1,0 +1,159 @@
+<!-- New Design -->
+<div *ngIf="pageData.formType==='new'">
+    <h2 class="content-block">ثبت طرح جدید</h2>
+    <div class="content-block">
+        <div class="packageType dx-card responsive-paddings">
+            <div class="lable-box">
+                مشخصات اولیه
+            </div>
+            <hr>
+            <div class="d-flex justify-around flex-md-column">
+                <div class="d-flex flex-column my-3">
+                    <dx-text-box class="my-2" name="brandName" label="نام برند" labelMode="floating">
+                    </dx-text-box>
+                    <dx-text-box class="my-2" name="persianName" label="نام فارسی طرح" labelMode="floating">
+                    </dx-text-box>
+                    <dx-text-box class="my-2" name="englishName" label="نام لاتین طرح" labelMode="floating">
+                    </dx-text-box>
+                    <dx-text-box class="my-2" name="designType" label="نوع طرح" labelMode="floating">
+                    </dx-text-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="designWeight" [step]="1" [min]="0" [max]="1000"
+                        label="وزن مندرج در طرح" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                </div>
+                <div class="d-flex flex-column my-3">
+                    <!-- <dx-check-box class="my-2" text="چاپ" width="200px" class="lable-box">
+                    </dx-check-box> -->
+                    <dx-select-box class="my-2" [dataSource]="printType" valueExpr="id" displayExpr="text"
+                        placeholder="{{printType[0].text}}">
+                    </dx-select-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="designWidth" [step]="1" [min]="0" [max]="1000" label="عرض طرح"
+                        labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="photocellDistance" [step]="1" [min]="0" [max]="1000"
+                        label="فاصله فوتوسل" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                </div>
+            </div>
+        </div>
+        <div class="dx-card responsive-paddings">
+            <div class="lable-box">
+                انتخاب فایل ها
+            </div>
+            <hr>
+            <div class="d-flex justify-around flex-md-column">
+                <div class="my-3">
+                    <dx-select-box [dataSource]="uploadType" valueExpr="id" displayExpr="text"
+                        placeholder="{{uploadType[0].text}}" (onSelectionChanged)="selectUploadType($event)">
+                    </dx-select-box>
+                </div>
+                <div class="d-flex flex-column w-75 w-md-100 my-3">
+                    <!-- (onUploaded)="getFilesUploaded($event)" -->
+                    <dx-file-uploader [visible]="pageData.fileUploader1"
+                        (onValueChanged)="getFilesUploaded($event, 1, 'فایل طرح')"
+                        [allowedFileExtensions]="fileExtention" [allowCanceling]="true"
+                        selectButtonText="بارگزاری فایل طرح" labelText="یا فایل را در این قسمت بکشید...">
+                    </dx-file-uploader>
+                    <dx-file-uploader [visible]="pageData.fileUploader2"
+                        (onValueChanged)="getFilesUploaded($event, 2, 'طرح سفید')"
+                        [allowedFileExtensions]="fileExtention" [allowCanceling]="true"
+                        selectButtonText="بارگزاری طرح سفید" labelText="یا فایل را در این قسمت بکشید...">
+                    </dx-file-uploader>
+                    <dx-file-uploader [visible]="pageData.fileUploader3"
+                        (onValueChanged)="getFilesUploaded($event, 3, 'تصویر الگو')"
+                        [allowedFileExtensions]="imageExtention" [allowCanceling]="true"
+                        selectButtonText="بارگزاری تصویر الگو" labelText="یا فایل را در این قسمت بکشید...">
+                    </dx-file-uploader>
+                </div>
+            </div>
+            <dx-list class="imagePreviewBox" [dataSource]="pageData.imagePreviewBox" [allowItemDeleting]="true"
+                itemDeleteMode="static" noDataText="">
+                <div *dxTemplate="let item of 'item'">
+                    <img alt="{{ item.name }}" [src]="item.preURL + item.name" class="imagePreview" />
+                    <p class="text-muted text-end mb-0">{{ item.title }}</p>
+                </div>
+            </dx-list>
+        </div>
+
+        <div class="dx-card responsive-paddings">
+            <dx-check-box [value]="pageData.packetIsEnabled" text="پاکت سازی" width="200px" class="lable-box"
+                (onValueChanged)="enablePacket()">
+            </dx-check-box>
+            <hr>
+            <div class="d-flex justify-around flex-md-column">
+                <div>
+                    <dx-radio-group [dataSource]="packeting" [value]="radioGroupValue" itemTemplate="radio"
+                        [disabled]="!pageData.packetIsEnabled">
+                        <div class="radio d-flex flex-column" *dxTemplate="let data of 'radio'">
+                            <p>{{data.title}}</p>
+                        </div>
+                    </dx-radio-group>
+                </div>
+                <div class="d-flex flex-column my-3">
+                    <dx-number-box format="#,##0.00" class="my-2" name="rollWeight" [disabled]="!pageData.packetIsEnabled" [step]="1"
+                        [min]="0" [max]="1000" label="قد پاکت" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="minRollWeight" [disabled]="!pageData.packetIsEnabled" [step]="1"
+                        [min]="0" [max]="1000" label="عمق بغل/کف کاست" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="minRollWeight" [disabled]="!pageData.packetIsEnabled" [step]="1"
+                        [min]="0" [max]="1000" label="عرض پاکت (موثر)" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="maxRollWeight" [disabled]="!pageData.packetIsEnabled" [step]="1"
+                        [min]="0" [max]="1000" label="عرض دوخت پاکت" labelMode="floating" [showSpinButtons]="true">
+                        <!-- [showSpinButtons]="true" [showClearButton]="true" > -->
+                    </dx-number-box>
+                </div>
+            </div>
+            <!-- <div class="d-flex justify-center my-4 mx-1">
+            <img src="/assets/images/packat.jpg" />
+        </div> -->
+            <div class="packageType">
+                <p class="my-4" [class]="!pageData.packetIsEnabled? 'disabled' :''">نحوه بسته بندی پاکت</p>
+                <dx-radio-group [dataSource]="packetType" [value]="radioGroupValue" itemTemplate="radio"
+                    [disabled]="!pageData.packetIsEnabled">
+                    <div class="radio d-flex" *dxTemplate="let data of 'radio'">
+                        <img src="{{data.image}}" />
+                    </div>
+                </dx-radio-group>
+            </div>
+        </div>
+        <div class="d-flex justify-center my-4">
+            <dx-button type="default" text="ثبت طرح جدید" (onClick)="onSubmitOrder()">
+            </dx-button>
+        </div>
+    </div>
+</div>
+
+<!-- My Designs -->
+<div *ngIf="pageData.formType==='list'">
+    <h2 class="content-block">طرح های من</h2>
+    <dx-data-grid class="dx-card wide-card mx-4" [dataSource]="dataSource" [showBorders]="false" [focusedRowEnabled]="true"
+        [focusedRowIndex]="0" [columnAutoWidth]="true" [columnHidingEnabled]="true">
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+        <dxo-selection mode="multiple" [deferred]="true"></dxo-selection>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxi-column dataField="Task_ID" [width]="90" [hidingPriority]="2">
+        </dxi-column>
+        <dxi-column dataField="Task_Subject" [width]="190" caption="Subject" [hidingPriority]="8">
+        </dxi-column>
+        <dxi-column dataField="Task_Status" caption="Status" [hidingPriority]="6">
+        </dxi-column>
+        <dxi-column dataField="Task_Priority" caption="Priority" [hidingPriority]="5">
+            <dxo-lookup [dataSource]="priority" valueExpr="value" displayExpr="name">
+            </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="ResponsibleEmployee.Employee_Full_Name" caption="Assigned To" [allowSorting]="false"
+            [hidingPriority]="7">
+        </dxi-column>
+        <dxi-column dataField="Task_Start_Date" caption="Start Date" dataType="date" [hidingPriority]="3">
+        </dxi-column>
+        <dxi-column dataField="Task_Due_Date" caption="Due Date" dataType="date" [hidingPriority]="4">
+        </dxi-column>
+        <dxi-column dataField="Task_Priority" caption="Priority" name="Priority" [hidingPriority]="1">
+        </dxi-column>
+        <dxi-column dataField="Task_Completion" caption="Completion" [hidingPriority]="0">
+        </dxi-column>
+    </dx-data-grid>
+</div>

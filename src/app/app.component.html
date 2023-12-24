@@ -1,0 +1,16 @@
+<ng-container *ngIf="isAuthenticated(); else unauthenticated">
+  <app-side-nav-outer-toolbar title="{{appInfo.title}}">
+    <router-outlet>
+    </router-outlet>
+    <app-footer>
+      تمام حق و حقوقات این سایت به هلدینگ {{appInfo.title}} متعلق است.
+      <br>
+      <br>
+      Copyright © {{appInfo.currentYear}}-2024
+    </app-footer>
+  </app-side-nav-outer-toolbar>
+</ng-container>
+
+<ng-template #unauthenticated>
+  <app-unauthenticated-content></app-unauthenticated-content>
+</ng-template>

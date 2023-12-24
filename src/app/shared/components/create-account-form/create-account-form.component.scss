@@ -1,0 +1,32 @@
+@import "../../../../themes/generated/variables.base.scss";
+
+::ng-deep .single-card {
+  .dx-card {
+    width: 60% !important;
+    margin: 1rem auto !important;
+  }
+}
+
+::ng-deep .dx-radiogroup-horizontal .dx-collection {
+  justify-content: space-evenly !important;
+  margin-block: 1rem !important;
+}
+
+.create-account-form {
+  .policy-info {
+    margin: 10px 0;
+    color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+    font-size: 14px;
+    font-style: normal;
+
+    a {
+      color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+    }
+  }
+
+  .login-link {
+    color: $base-accent;
+    font-size: 16px;
+    text-align: center;
+  }
+}

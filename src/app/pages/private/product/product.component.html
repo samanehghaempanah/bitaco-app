@@ -1,0 +1,774 @@
+<!-- New Product -->
+<div *ngIf="pageData.formType==='new'">
+    <h2 class="content-block">ثبت محصول جدید</h2>
+    <div id="scrolledtabs" class="dx-card wide-card mx-4">
+        <dx-tabs [dataSource]="tabs" [scrollByContent]="true" [showNavButtons]="true" (onItemClick)="selectTab($event)"
+            [selectedItem]="tabs[0]" selectionMode="single"></dx-tabs>
+        <div *ngIf="tabContent==='tab1'">
+            <div class="responsive-paddings">
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-between flex-md-column my-3">
+                        <div class="order-md-2 d-flex items-center">
+                            <dx-text-box class="my-2" name="id" label="شناسه" labelMode="floating">
+                            </dx-text-box>
+                            <span class="me-3">PR</span>
+                        </div>
+                        <dx-text-box class="order-md-1 my-2" name="creationDate" label="تاریخ ایجاد طرح"
+                            labelMode="floating" [disabled]="true" value="{{creationDate | date:'YYYY/MM/dd'}}">
+                        </dx-text-box>
+                        <!-- <div class="d-flex flex-column">
+                            <p class="mb-0">
+                                تاریخ ایجاد طرح:
+                            </p>
+                            <p>
+                                {{creationDate | date:'YYYY/MM/dd'}}
+                            </p>
+                        </div> -->
+                    </div>
+                    <div class="d-flex flex-md-column column-gap my-3">
+                        <dx-text-box class="my-2" name="persianName" label="نام فارسی محصول" labelMode="floating">
+                        </dx-text-box>
+                        <dx-text-box class="my-2" name="latinName" label="نام انگلیسی محصول" labelMode="floating">
+                        </dx-text-box>
+                        <!-- <dx-check-box class="my-2" text="چاپ" width="200px" class="lable-box">
+                        </dx-check-box> -->
+                    </div>
+                    <div class="d-flex flex-md-column column-gap my-3">
+                        <div class="d-flex items-center">
+                            <dx-text-box class="my-2" name="customerId" label="شناسه مشتری" labelMode="floating">
+                            </dx-text-box>
+                        </div>
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="productType" valueExpr="id"
+                            displayExpr="text" label="تیپ محصول" labelMode="floating">
+                        </dx-select-box>
+                    </div>
+                    <div class="d-flex flex-column my-3">
+                        <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات"
+                            labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true"
+                            height="100px">
+                        </dx-text-area>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="tabContent==='tab2'">
+            <div class="responsive-paddings">
+                <div class="d-flex flex-column">
+                    <dx-check-box class="my-2" text="چاپ" width="200px" class="lable-box"
+                        (onValueChanged)="enablePrint()">
+                    </dx-check-box>
+                    <div class="d-flex flex-md-column column-gap my-3">
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="printType" valueExpr="id"
+                            displayExpr="text" label="نوع چاپ" [disabled]="!pageData.printIsEnabled"
+                            labelMode="floating">
+                        </dx-select-box>
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="printMethod" valueExpr="id"
+                            displayExpr="text" label="نحوه چاپ" [disabled]="!pageData.printIsEnabled"
+                            labelMode="floating">
+                        </dx-select-box>
+                    </div>
+                    <div class="d-flex flex-md-column column-gap my-3">
+                        <dx-number-box class="my-2" name="designWeight" [step]="1" [min]="0" [max]="1000"
+                            [(value)]="pageData.numberOfDesigns" label="تعداد طرح" labelMode="floating"
+                            [showSpinButtons]="true" (onValueChanged)="numberOfDesignsChanged($event)">
+                        </dx-number-box>
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="SewingType" valueExpr="id"
+                            displayExpr="text" label="نوع دوخت" labelMode="floating">
+                        </dx-select-box>
+                    </div>
+                    <div class="d-flex flex-md-column column-gap my-3">
+                        <dx-number-box class="my-2" name="designWeight" [step]="1" [min]="0" [max]="10"
+                            label="تعداد رنگ (با کلدسیل و لاک)" labelMode="floating" [showSpinButtons]="true"
+                            (onValueChanged)="numberOfColorsChanged($event)">
+                        </dx-number-box>
+                    </div>
+                    <div *ngIf="colorsData.length !=0" class="d-md-none d-flex flex-md-column column-gap mt-4">
+                        <div class="d-flex justify-between items-center column-gap w-100 px-3">
+                            <span class="text-center"></span>
+                            <span class="flex-1 text-center">رنگ</span>
+                            <span class="flex-1 text-center">کاوریج</span>
+                            <span class="flex-1 text-center">گرماژ</span>
+                            <span class="flex-1 text-center">L</span>
+                            <span class="flex-1 text-center">a</span>
+                            <span class="flex-1 text-center">b</span>
+                        </div>
+                    </div>
+                    <div *ngFor="let colorRow of colorsData" class="d-flex flex-md-column column-gap mb-3">
+                        <div class="d-flex flex-md-column justify-between items-center column-gap w-100 px-3">
+                            <span class="text-center">{{colorRow?.id}}</span>
+                            <span class="flex-1 text-center">
+                                <dx-select-box placeholder="" class="my-2" [dataSource]="colors" valueExpr="id"
+                                    displayExpr="name" label="رنگ" labelMode="floating">
+                                </dx-select-box>
+                            </span>
+                            <span class="flex-1 text-center">
+                                <dx-number-box class="my-2" name="coverage" [step]="1" [min]="0" [max]="1000"
+                                    [showSpinButtons]="true" label="کاوریج">
+                                </dx-number-box>
+                            </span>
+                            <span class="flex-1 text-center">
+                                <dx-number-box class="my-2" name="GSM" [step]="1" [min]="0" [max]="1000"
+                                    [showSpinButtons]="true" label="گرماژ">
+                                </dx-number-box>
+                            </span>
+                            <span class="flex-1 text-center">
+                                <dx-number-box class="my-2" name="l-field" [step]="1" [min]="0" [max]="1000"
+                                    [showSpinButtons]="true" label="L">
+                                </dx-number-box>
+                            </span>
+                            <span class="flex-1 text-center">
+                                <dx-number-box class="my-2" name="a-field" [step]="1" [min]="0" [max]="1000"
+                                    [showSpinButtons]="true" label="a">
+                                </dx-number-box>
+                            </span>
+                            <span class="flex-1 text-center">
+                                <dx-number-box class="my-2" name="b-field" [step]="1" [min]="0" [max]="1000"
+                                    [showSpinButtons]="true" label="b">
+                                </dx-number-box>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="responsive-paddings pt-0">
+                <dx-tabs [dataSource]="designsTabs" [scrollByContent]="true" [showNavButtons]="true"
+                    (onItemClick)="selectDesignTab($event)" [selectedItem]="selectedDesign" itemTemplate="item"
+                    noDataText="هیچ طرحی ثبت نشده است!" class="dx-card">
+                    <div *dxTemplate="let design of 'item'; let index = index"
+                        class="d-flex justify-between column-gap">
+                        <span>طرح {{ index+1 }}</span><i *ngIf="showCloseButton()" class="dx-icon dx-icon-close m-0"
+                            (click)="closeButtonHandler(design)"></i>
+                    </div>
+                </dx-tabs>
+                <div>
+                    <dx-button text="طرح جدید" icon="add" type="default" (onClick)="addButtonHandler()"></dx-button>
+                </div>
+                <div *ngIf="pageData.numberOfDesigns>0" class="dx-card responsive-paddings">
+                    <div class="lable-box">
+                        مشخصات اولیه طرح {{designCount}}
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-around flex-md-column">
+                        <div class="d-flex flex-column my-3">
+                            <dx-text-box class="my-2" name="brandName" label="نام برند" labelMode="floating">
+                            </dx-text-box>
+                            <dx-text-box class="my-2" name="persianName" label="نام فارسی طرح" labelMode="floating"
+                                (onValueChanged)="persianNameChanged($event)">
+                            </dx-text-box>
+                            <dx-text-box class="my-2" name="englishName" label="نام لاتین طرح" labelMode="floating">
+                            </dx-text-box>
+                        </div>
+                        <div class="d-flex flex-column my-3">
+                            <dx-text-box class="my-2" name="designType" label="نوع طرح" labelMode="floating">
+                            </dx-text-box>
+                            <dx-number-box format="#,##0.00" class="my-2" name="designWeight" [step]="1" [min]="0"
+                                [max]="1000" label="وزن مندرج در طرح" labelMode="floating" [showSpinButtons]="true">
+                            </dx-number-box>
+                            <!-- <dx-check-box class="my-2" text="چاپ" width="200px" class="lable-box">
+                    </dx-check-box> -->
+                            <dx-select-box placeholder="" class="my-2" [dataSource]="SewingType" valueExpr="id"
+                                displayExpr="text" label="نوع دوخت" labelMode="floating">
+                            </dx-select-box>
+                        </div>
+                        <div class="d-flex flex-column my-3">
+                            <dx-number-box format="#,##0.00" class="my-2" name="designWidth" [step]="1" [min]="0"
+                                [max]="1000" label="عرض طرح" labelMode="floating" [showSpinButtons]="true">
+                            </dx-number-box>
+                            <dx-number-box format="#,##0.00" class="my-2" name="photocellDistance" [step]="1" [min]="0"
+                                [max]="1000" label="فاصله فوتوسل" labelMode="floating" [showSpinButtons]="true">
+                            </dx-number-box>
+                        </div>
+                    </div>
+
+                    <div class="lable-box mt-4">
+                        انتخاب فایل های طرح {{designCount}}
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-around flex-md-column">
+                        <div class="my-3">
+                            <dx-select-box placeholder="" [dataSource]="uploadType" valueExpr="id" displayExpr="text"
+                                label="{{uploadType[0].text}}" (onSelectionChanged)="selectUploadType($event)"
+                                labelMode="floating">
+                            </dx-select-box>
+                        </div>
+                        <div class="d-flex flex-column w-75 w-md-100 my-3">
+                            <!-- (onUploaded)="getFilesUploaded($event)" -->
+                            <dx-file-uploader [visible]="pageData.fileUploader1"
+                                (onValueChanged)="getFilesUploaded($event, 1, 'فایل طرح')"
+                                [allowedFileExtensions]="fileExtention" [allowCanceling]="true"
+                                selectButtonText="بارگزاری فایل طرح" labelText="یا فایل را در این قسمت بکشید...">
+                            </dx-file-uploader>
+                            <dx-file-uploader [visible]="pageData.fileUploader2"
+                                (onValueChanged)="getFilesUploaded($event, 2, 'طرح سفید')"
+                                [allowedFileExtensions]="fileExtention" [allowCanceling]="true"
+                                selectButtonText="بارگزاری طرح سفید" labelText="یا فایل را در این قسمت بکشید...">
+                            </dx-file-uploader>
+                            <dx-file-uploader [visible]="pageData.fileUploader3"
+                                (onValueChanged)="getFilesUploaded($event, 3, 'تصویر الگو')"
+                                [allowedFileExtensions]="imageExtention" [allowCanceling]="true"
+                                selectButtonText="بارگزاری تصویر الگو" labelText="یا فایل را در این قسمت بکشید...">
+                            </dx-file-uploader>
+                        </div>
+                    </div>
+                    <dx-list class="imagePreviewBox" [dataSource]="pageData.imagePreviewBox" [allowItemDeleting]="true"
+                        itemDeleteMode="static" noDataText="">
+                        <div *dxTemplate="let item of 'item'">
+                            <img alt="{{ item.name }}" [src]="item.preURL + item.name" class="imagePreview" />
+                            <p class="text-muted text-end mb-0">{{ item.title }}</p>
+                        </div>
+                    </dx-list>
+
+                    <dx-check-box [value]="pageData.packetIsEnabled" text="پاکت سازی" width="200px" class="lable-box"
+                        (onValueChanged)="enablePacket()">
+                    </dx-check-box>
+                    <hr>
+                    <div class="d-flex justify-around flex-md-column">
+                        <div>
+                            <dx-radio-group [dataSource]="packeting" [value]="radioGroupValue" itemTemplate="radio"
+                                [disabled]="!pageData.packetIsEnabled">
+                                <div class="radio d-flex flex-column" *dxTemplate="let data of 'radio'">
+                                    <p>{{data.title}}</p>
+                                </div>
+                            </dx-radio-group>
+                        </div>
+                        <div class="d-flex flex-column my-3">
+                            <dx-number-box format="#,##0.00" class="my-2" name="rollWeight"
+                                [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000" label="قد پاکت"
+                                labelMode="floating" [showSpinButtons]="true">
+                            </dx-number-box>
+                            <dx-number-box format="#,##0.00" class="my-2" name="minRollWeight"
+                                [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000"
+                                label="عمق بغل/کف کاست" labelMode="floating" [showSpinButtons]="true">
+                            </dx-number-box>
+                            <dx-number-box format="#,##0.00" class="my-2" name="minRollWeight"
+                                [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000"
+                                label="عرض پاکت (موثر)" labelMode="floating" [showSpinButtons]="true">
+                            </dx-number-box>
+                            <dx-number-box format="#,##0.00" class="my-2" name="maxRollWeight"
+                                [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000"
+                                label="عرض دوخت پاکت" labelMode="floating" [showSpinButtons]="true">
+                                <!-- [showSpinButtons]="true" [showClearButton]="true" > -->
+                            </dx-number-box>
+                        </div>
+                    </div>
+                    <!-- <div class="d-flex justify-center my-4 mx-1">
+                        <img src="/assets/images/packat.jpg" />
+                    </div> -->
+                    <div class="packageType">
+                        <p class="my-4" [class]="!pageData.packetIsEnabled? 'disabled' :''">نحوه بسته بندی پاکت</p>
+                        <dx-radio-group [dataSource]="packetType" [value]="radioGroupValue" itemTemplate="radio"
+                            [disabled]="!pageData.packetIsEnabled">
+                            <div class="radio d-flex" *dxTemplate="let data of 'radio'">
+                                <img src="{{data.image}}" />
+                            </div>
+                        </dx-radio-group>
+                    </div>
+
+                    <dx-check-box [value]="pageData.punchIsEnabled" text="پانچ" width="200px" class="lable-box"
+                        (onValueChanged)="enablePunch()">
+                    </dx-check-box>
+                    <hr>
+                    <div class="packageType">
+                        <dx-radio-group [dataSource]="punchType" [value]="radioGroupValue" itemTemplate="radio"
+                            [disabled]="!pageData.punchIsEnabled">
+                            <div class="radio d-flex" *dxTemplate="let data of 'radio'">
+                                <img src="{{data.image}}" style="width: 200px; height: 200px;" />
+                            </div>
+                        </dx-radio-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="tabContent==='tab3'" class="packageType responsive-paddings">
+            <dx-check-box class="my-2" text="مات کننده" width="200px" class="lable-box"
+                (onValueChanged)="enableMatte()">
+            </dx-check-box>
+            <hr>
+            <div class="d-flex flex-column column-gap my-3 w-25 w-md-100">
+                <!-- <dx-number-box class="my-2" name="matteCoverage" [step]="1" [min]="0" [max]="1000" label="کاوریج"
+                    format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                    [disabled]="!pageData.matteIsEnabled">
+                </dx-number-box>
+                <dx-number-box class="my-2" name="matteGSM" [step]="1" [min]="0" [max]="1000" label="گرماژ"
+                    format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                    [disabled]="!pageData.matteIsEnabled">
+                </dx-number-box> -->
+                <dx-select-box placeholder="" class="my-2" [dataSource]="LaminateType" valueExpr="id" displayExpr="text"
+                    label="نوع لمینت" [disabled]="!pageData.matteIsEnabled" labelMode="floating">
+                </dx-select-box>
+                <dx-number-box class="my-2" name="offerGSM" [step]="1" [min]="0" [max]="1000"
+                    label="گرماژ پیشنهادی لمینت" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                    [disabled]="!pageData.matteIsEnabled">
+                </dx-number-box>
+                <div class="d-flex items-center">
+                    <dx-number-box class="my-2" name="matteThreatment" [step]="1" [min]="0" [max]="1000"
+                        label="Threatment" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                        [disabled]="!pageData.matteIsEnabled">
+                    </dx-number-box>
+                    <span class="me-3">dyne</span>
+                </div>
+            </div>
+
+            <dx-check-box text="کلدسیل" width="200px" class="lable-box my-2 mt-5" (onValueChanged)="enableCold()">
+            </dx-check-box>
+            <hr>
+            <div class="d-flex flex-column column-gap my-3 w-25 w-md-100">
+                <dx-number-box class="my-2" name="coldCoverage" [step]="1" [min]="0" [max]="1000" label="کاوریج"
+                    format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                    [disabled]="!pageData.coldIsEnabled">
+                </dx-number-box>
+                <dx-number-box class="my-2" name="coldGSM" [step]="1" [min]="0" [max]="1000" label="گرماژ"
+                    format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                    [disabled]="!pageData.coldIsEnabled">
+                </dx-number-box>
+            </div>
+
+            <dx-check-box class="my-2" text="لاک و پوشش" width="200px" class="lable-box mt-5"
+                (onValueChanged)="enableVarnish()">
+            </dx-check-box>
+            <hr>
+            <div *ngFor="let varnishRow of varnishData; let index = index"
+                class="d-flex flex-md-column column-gap mb-3">
+                <div class="d-flex flex-md-column justify-between items-center column-gap w-100 px-3">
+                    <span class="text-center" [class]="!pageData.varnishIsEnabled ? 'disabled' : ''">{{ index+1
+                        }}</span>
+                    <span class="flex-1 text-center">
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="coverageType" valueExpr="id"
+                            displayExpr="text" label="نوع پوشش" [disabled]="!pageData.varnishIsEnabled"
+                            labelMode="floating">
+                        </dx-select-box>
+                    </span>
+                    <span class="flex-1 text-center">
+                        <dx-number-box class="my-2" name="varnishCoverage" [step]="1" [min]="0" [max]="1000"
+                            label="کاوریج" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                            [disabled]="!pageData.varnishIsEnabled">
+                        </dx-number-box>
+                    </span>
+                    <span class="flex-1 text-center">
+                        <dx-number-box class="my-2" name="varnishGSM" [step]="1" [min]="0" [max]="1000" label="گرماژ"
+                            format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                            [disabled]="!pageData.varnishIsEnabled">
+                        </dx-number-box>
+                    </span>
+                    <span>
+                        <dx-button (onClick)="removeVarnish(varnishRow?.id)"
+                            [disabled]="!pageData.varnishIsEnabled || varnishRow?.id===1" icon="close" text=""
+                            class="text-danger">
+                        </dx-button>
+                    </span>
+                </div>
+            </div>
+            <div class="d-flex">
+                <dx-button [disabled]="!pageData.varnishIsEnabled" text="جدید" icon="add" type="default"
+                    (onClick)="addVarnish()"></dx-button>
+            </div>
+        </div>
+        <div *ngIf="tabContent==='tab4'" class="responsive-paddings">
+            <form action="your-action" (submit)="onFormSubmit($event)">
+                <dx-check-box [value]="pageData.coldIsEnabled" text="برش" width="200px" class="lable-box"
+                    (onValueChanged)="enableCold()">
+                </dx-check-box>
+                <hr>
+                <div class="d-flex justify-around flex-md-column">
+                    <div class="d-flex flex-column my-3">
+                        <dx-number-box type="decimal" class="my-4" name="boobinSize"
+                            [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="سایز بوبین"
+                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always">
+                            <dx-validator>
+                                <dxi-validation-rule type="required" message="فیلد اجباری است!">
+                                </dxi-validation-rule>
+                            </dx-validator>
+                        </dx-number-box>
+                        <dx-number-box type="decimal" class="my-4" name="rollDiameter"
+                            [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="قطر رول"
+                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always">
+                            <dx-validator>
+                                <dxi-validation-rule type="required" message="فیلد اجباری است!">
+                                </dxi-validation-rule>
+                            </dx-validator>
+                        </dx-number-box>
+                        <dx-number-box type="decimal" class="my-4" name="rollSize" [disabled]="!pageData.coldIsEnabled"
+                            [step]="1" [min]="0" [max]="1000" label="متراژ رول" labelMode="floating"
+                            [showSpinButtons]="true" validationMessageMode="always">
+                            <dx-validator>
+                                <dxi-validation-rule type="required" message="فیلد اجباری است!">
+                                </dxi-validation-rule>
+                            </dx-validator>
+                        </dx-number-box>
+                    </div>
+                    <div class="d-flex flex-column my-3">
+                        <dx-number-box type="decimal" class="my-4" name="rollWeight"
+                            [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="وزن رول"
+                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always">
+                            <dx-validator>
+                                <dxi-validation-rule type="required" message="فیلد اجباری است!">
+                                </dxi-validation-rule>
+                            </dx-validator>
+                        </dx-number-box>
+                        <dx-number-box format="#,##0.00" class="my-4" name="minRollWeight"
+                            [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="حداقل وزن رول"
+                            labelMode="floating" [showSpinButtons]="true">
+                        </dx-number-box>
+                        <dx-number-box format="#,##0.00" class="my-4" name="maxRollWeight"
+                            [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000"
+                            label="حداکثر وزن رول" labelMode="floating" [showSpinButtons]="true">
+                            <!-- [showSpinButtons]="true" [showClearButton]="true" > -->
+                        </dx-number-box>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="tabContent==='tab5'" class="packageType responsive-paddings">
+            <div class="lable-box">
+                نوع بسته بندی
+            </div>
+            <hr>
+            <dx-radio-group [dataSource]="packageType" [value]="radioGroupValue" itemTemplate="radio">
+                <div class="radio" *dxTemplate="let data of 'radio'; let index = index">
+                    <img src="{{data.image}}" />
+                </div>
+            </dx-radio-group>
+            <dx-check-box text="کسر بوبین / کارتن" width="200px" class="my-3 mt-5">
+            </dx-check-box>
+            <dx-check-box text="کسر پالت" width="200px" class="my-3">
+            </dx-check-box>
+            <dx-check-box text="کسر کاور" width="200px" class="my-3">
+            </dx-check-box>
+        </div>
+        <div *ngIf="tabContent==='tab6'" class="responsive-paddings">
+            <div class="d-flex justify-around column-gap flex-md-column">
+                <div class="d-flex flex-column my-3">
+                    <dx-number-box format="#,##0.00" class="my-2" name="filmWidth" [step]="1" [min]="0" [max]="1000"
+                        label="عرض فیلم" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="repeatEnvironment" [step]="1" [min]="0"
+                        [max]="1000" label="تکرار در محیط" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="repeatWidth" [step]="1" [min]="0" [max]="1000"
+                        label="تکرار در عرض" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="cylinderLength" [step]="1" [min]="0"
+                        [max]="1000" label="طول سیلندر" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                </div>
+                <div class="d-flex flex-column my-3">
+                    <dx-number-box format="#,##0.00" class="my-2" name="backToBack" [step]="1" [min]="0" [max]="1000"
+                        label="پشت به پشت کار" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="freeSpace" [step]="1" [min]="0" [max]="1000"
+                        label="فاصله آزاد" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="symptomsBackToBack" [step]="1" [min]="0"
+                        [max]="1000" label="پشت به پشت علائم" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="environment" [step]="1" [min]="0" [max]="1000"
+                        label="محیط" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                </div>
+                <div class="d-flex flex-column my-3">
+                    <dx-select-box placeholder="" class="my-2" [dataSource]="colors" valueExpr="id" displayExpr="name"
+                        label="رنگ فوتوسل" labelMode="floating">
+                    </dx-select-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="registerWidth" [step]="1" [min]="0" [max]="1000"
+                        label="عرض رجیستر" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-text-box class="my-2" name="registerType" label="نوع رجیستر" labelMode="floating">
+                    </dx-text-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="outerDiameterCone" [step]="1" [min]="0"
+                        [max]="1000" label="قطر بیرونی مخروط" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                </div>
+                <div class="d-flex flex-column my-3">
+                    <dx-number-box format="#,##0.00" class="my-2" name="slopeCone" [step]="1" [min]="0" [max]="1000"
+                        label="شیب مخروط" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="exponential" [step]="1" [min]="0" [max]="1000"
+                        label="تصاعدی" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="grooveWidth" [step]="1" [min]="0" [max]="1000"
+                        label="عرض شیار" labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-text-box class="my-2" name="grooveType" label="نوع شیار" labelMode="floating">
+                    </dx-text-box>
+                </div>
+            </div>
+            <div class="d-flex flex-column my-3 w-25 w-md-100">
+                <dx-date-box type="date" name="confirmDate" label="تاریخ تایید نهایی طرح" labelMode="floating">
+                </dx-date-box>
+            </div>
+            <div class="d-flex flex-column my-3">
+                <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات برای سیلندر ساز"
+                    labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px">
+                </dx-text-area>
+            </div>
+        </div>
+        <div *ngIf="tabContent==='tab7'" class="responsive-paddings">
+            <div class="lable-box">
+                اطلاعات گمرکی
+            </div>
+            <hr>
+            <div class="d-flex flex-column mt-3">
+                <dx-text-box class="my-2 w-50 w-md-100" name="hsCode" label="HS کد" labelMode="floating">
+                </dx-text-box>
+            </div>
+        </div>
+        <div *ngIf="tabContent==='tab7'" class="d-flex justify-center my-4">
+            <dx-button type="default" text="ثبت محصول جدید" (onClick)="onSubmitNewProduct()">
+            </dx-button>
+        </div>
+        <div *ngIf="tabContent==='tab8'" class="d-flex flex-column justify-center my-4">
+            <dx-data-grid [dataSource]="documents" [customizeColumns]="customizeDocumentColumns"
+                [hoverStateEnabled]="true" [(selectedRowKeys)]="gridBoxDocumentValue" height="100%"
+                noDataText=".داده ای وجود ندارد" dataRowTemplate="dataRowTemplateName">
+                <ng-container *dxTemplate="let document of 'dataRowTemplateName'">
+                    <tr class="designsData text-center">
+                        <td>{{document.data.id}}</td>
+                        <td>{{document.data.type}}</td>
+                        <td>{{document.data.name}}</td>
+                        <!-- <td>{{document.data.path}}</td> -->
+                        <td>{{document.data.description}}</td>
+                        <td class="text-center">
+                            <img [src]="'/assets/images/file-type/'+document.data.suffix+'.png'"
+                                class="fileTypeImage" />
+                        </td>
+                        <td>{{document.data.date}}</td>
+                        <td>{{document.data.hour}}</td>
+                        <td>{{document.data.Registrar}}</td>
+                        <td class="text-center">
+                            <dx-button icon="{{document.data.edit}}" text="" class="text-warning"
+                                (onClick)="onEditDocFile(document.data)">
+                            </dx-button>
+                        </td>
+                        <td class="text-center">
+                            <dx-button icon="{{document.data.view}}" text="" class="text-info"
+                                (onClick)="onViewDocFile(document.data)">
+                            </dx-button>
+                        </td>
+                        <td class="text-center">
+                            <a href="{{document.data.path}}" download>
+                                <dx-button icon="{{document.data.download}}" text="" class="text-success">
+                                </dx-button>
+                            </a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <dxo-selection mode="single"></dxo-selection>
+                <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+                <!-- <dxo-header-filter [visible]="true"></dxo-header-filter> -->
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+            </dx-data-grid>
+            <div>
+                <dx-button text="آپلود فایل جدید" icon="add" type="default" (onClick)="showNewDocForm($event)"
+                    class="m-3"></dx-button>
+            </div>
+        </div>
+        <dx-popup [width]="400" [height]="600" [hideOnOutsideClick]="false" [showCloseButton]="true"
+            [(visible)]="pageData.NewDocFormVisible" title="مشخصات فایل جدید">
+            <div *dxTemplate="let data of 'content'">
+                <dx-scroll-view width="100%" height="100%">
+                    <div class="content">
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="docFileModel" valueExpr="text"
+                            displayExpr="text" label="نوع فایل" name="docType" labelMode="floating"
+                            [(value)]="newDocFormData.type">
+                        </dx-select-box>
+                        <dx-text-area class="my-2" name="docFileDescription" [maxLength]="500" label="توضیحات"
+                            labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true"
+                            height="100px" [(value)]="newDocFormData.description">
+                        </dx-text-area>
+                        <dx-file-uploader (onValueChanged)="newDocFilesUploaded($event)"
+                            [allowedFileExtensions]="docFileExtention" [allowCanceling]="true"
+                            selectButtonText="بارگزاری فایل جدید" labelText="یا فایل را در این قسمت بکشید...">
+                        </dx-file-uploader>
+                        <div class="text-center my-4">
+                            <img [src]="newDocFormData.path" style="width: 200px;" />
+                        </div>
+                    </div>
+                </dx-scroll-view>
+            </div>
+            <dxi-toolbar-item widget="dxButton" toolbar="bottom" location="center"
+                [options]="pageData.NewDocFormButtonOptions">
+            </dxi-toolbar-item>
+        </dx-popup>
+        <dx-popup [width]="400" [height]="600" [hideOnOutsideClick]="false" [showCloseButton]="true"
+            [(visible)]="pageData.EditDocFormVisible" title="ویرایش مشخصات فایل">
+            <div *dxTemplate="let data of 'content'">
+                <dx-scroll-view width="100%" height="100%">
+                    <div class="content">
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="docFileModel" valueExpr="text"
+                            displayExpr="text" label="نوع فایل" name="docType" [(value)]="editDocFormData.type"
+                            labelMode="floating">
+                        </dx-select-box>
+                        <dx-text-area class="my-2" name="docFileDescription" [maxLength]="500" label="توضیحات"
+                            labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true"
+                            height="100px" [(value)]="editDocFormData.description">
+                        </dx-text-area>
+                        <dx-file-uploader (onValueChanged)="editDocFilesUploaded($event)"
+                            [allowedFileExtensions]="docFileExtention" [allowCanceling]="true"
+                            selectButtonText="جایگزین کردن فایل جدید" labelText="یا فایل را در این قسمت بکشید...">
+                        </dx-file-uploader>
+                        <div class="text-center my-4">
+                            <img [src]="editDocFormData.path" style="width: 200px;" />
+                        </div>
+                    </div>
+                </dx-scroll-view>
+            </div>
+            <dxi-toolbar-item widget="dxButton" toolbar="bottom" location="center"
+                [options]="pageData.EditDocFormButtonOptions">
+            </dxi-toolbar-item>
+        </dx-popup>
+        <dx-popup [width]="600" height="auto" [hideOnOutsideClick]="true" [showCloseButton]="true"
+            [(visible)]="pageData.ViewDocFormVisible">
+            <div *dxTemplate="let data of 'content'">
+                <dx-scroll-view width="100%" height="100%">
+                    <div class="content">
+                        <div class="text-center">
+                            <img [src]="viewDocFile" class="w-100" />
+                        </div>
+                    </div>
+                </dx-scroll-view>
+            </div>
+        </dx-popup>
+
+
+        <!-- <dx-check-box [value]="pageData.packetIsEnabled" text="پاکت سازی" width="200px" class="lable-box"
+            (onValueChanged)="enablePacket()">
+        </dx-check-box>
+            <hr>
+            <div class="d-flex justify-around flex-md-column">
+                <div>
+                    <dx-radio-group [dataSource]="packeting" [value]="radioGroupValue" itemTemplate="radio"
+                    [disabled]="!pageData.packetIsEnabled">
+                    <div class="radio d-flex flex-column" *dxTemplate="let data of 'radio'">
+                        <p>{{data.title}}</p>
+                    </div>
+                </dx-radio-group>
+            </div>
+            <div class="d-flex flex-column my-3">
+                <dx-number-box format="#,##0.00" class="my-2" name="rollWeight"
+                [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000" label="قد پاکت"
+                labelMode="floating" [showSpinButtons]="true">
+            </dx-number-box>
+            <dx-number-box format="#,##0.00" class="my-2" name="minRollWeight"
+            [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000" label="عمق بغل/کف کاست"
+                        labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="minRollWeight"
+                        [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000" label="عرض پاکت (موثر)"
+                        labelMode="floating" [showSpinButtons]="true">
+                    </dx-number-box>
+                    <dx-number-box format="#,##0.00" class="my-2" name="maxRollWeight"
+                    [disabled]="!pageData.packetIsEnabled" [step]="1" [min]="0" [max]="1000" label="عرض دوخت پاکت"
+                        labelMode="floating" [showSpinButtons]="true"> -->
+        <!-- [showSpinButtons]="true" [showClearButton]="true" > -->
+        <!-- </dx-number-box>
+            </div>
+        </div> -->
+        <!-- <div class="d-flex justify-center my-4 mx-1">
+                <img src="/assets/images/packat.jpg" />
+                    </div> -->
+        <!-- <div class="packageType">
+                        <p class="my-4" [class]="!pageData.packetIsEnabled? 'disabled' :''">نحوه بسته بندی پاکت</p>
+                        <dx-radio-group [dataSource]="packetType" [value]="radioGroupValue" itemTemplate="radio"
+                        [disabled]="!pageData.packetIsEnabled">
+                        <div class="radio d-flex" *dxTemplate="let data of 'radio'">
+                            <img src="{{data.image}}" />
+                        </div>
+                </dx-radio-group>
+            </div> -->
+
+        <!-- <div class="d-flex justify-center my-4">
+                <dx-button type="default" text="ثبت طرح جدید" (onClick)="onSubmitDesign()">
+                </dx-button>
+            </div> -->
+        <!-- <div class="dx-card responsive-paddings">
+                <div class="lable-box">
+                    انتخاب طرح
+        </div>
+        <hr>
+        <div class="d-flex flex-column my-4">
+            <div class="dx-field">
+                <div class="dx-field-value">
+                    <dx-drop-down-box [(value)]="gridBoxValue" [(opened)]="isGridBoxOpened" [dataSource]="designsList"
+                    valueExpr="id" displayExpr="name" [deferRendering]="false"
+                        placeholder="طرح های مورد نظر را انتخاب کنید..." [inputAttr]="{ 'aria-label': 'Owner' }"
+                        [showClearButton]="true" (onOptionChanged)="onGridBoxOptionChanged($event)">
+                        <div *dxTemplate="let data of 'content'">
+                            <dx-data-grid [dataSource]="gridDataSource" [customizeColumns]="customizeColumns"
+                            [hoverStateEnabled]="true" [(selectedRowKeys)]="gridBoxValue" height="100%"
+                            noDataText=".داده ای وجود ندارد" dataRowTemplate="dataRowTemplateName">
+                            <ng-container *dxTemplate="let design of 'dataRowTemplateName'">
+                                <tr class="designsData text-center">
+                                    <td>{{design.data.id}}</td>
+                                    <td>{{design.data.name}}</td>
+                                    <td>{{design.data.type}}</td>
+                                    <td>{{design.data.weight}}</td>
+                                    <td>{{design.data.date}}</td>
+                                    <td class="text-center">
+                                            <img [src]="design.data.image" class="w-50" style="max-height: 35px;" />
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                                <dxo-header-filter [visible]="true"></dxo-header-filter>
+                                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+                            </dx-data-grid>
+                        </div>
+                    </dx-drop-down-box>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    </div>
+</div>
+
+<!-- My Products -->
+<div *ngIf="pageData.formType==='list'">
+    <h2 class="content-block">محصولات من</h2>
+    <dx-data-grid #dataGridRef (onSelectionChanged)="getSelectedData()" class="dx-card wide-card mx-4"
+        [dataSource]="dataSource" [showBorders]="false" [focusedRowEnabled]="true" [focusedRowIndex]="0"
+        [columnAutoWidth]="true" [columnHidingEnabled]="true">
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+        <dxo-selection [deferred]="true" selectAllMode="allPages" showCheckBoxesMode="always"
+            mode="multiple"></dxo-selection>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxi-column dataField="Task_ID" [width]="90" [hidingPriority]="2">
+        </dxi-column>
+        <dxi-column dataField="Task_Subject" [width]="190" caption="Subject" [hidingPriority]="8">
+        </dxi-column>
+        <dxi-column dataField="Task_Status" caption="Status" [hidingPriority]="6">
+        </dxi-column>
+        <dxi-column dataField="Task_Priority" caption="Priority" [hidingPriority]="5">
+            <dxo-lookup [dataSource]="priority" valueExpr="value" displayExpr="name">
+            </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="ResponsibleEmployee.Employee_Full_Name" caption="Assigned To" [allowSorting]="false"
+            [hidingPriority]="7">
+        </dxi-column>
+        <dxi-column dataField="Task_Start_Date" caption="Start Date" dataType="date" [hidingPriority]="3">
+        </dxi-column>
+        <dxi-column dataField="Task_Due_Date" caption="Due Date" dataType="date" [hidingPriority]="4">
+        </dxi-column>
+        <dxi-column dataField="Task_Priority" caption="Priority" name="Priority" [hidingPriority]="1">
+        </dxi-column>
+        <dxi-column dataField="Task_Completion" caption="Completion" [hidingPriority]="0">
+        </dxi-column>
+    </dx-data-grid>
+    <!-- <div class="selected-data">
+        <span class="caption">Selected Records:</span>
+        <span>
+            {{
+            grid.selectedRowKeys.length
+            ? (grid.instance.getSelectedRowsData())
+            : "Nobody has been selected"
+            }}
+        </span>
+    </div> -->
+    <div class="d-flex justify-center my-4">
+        <dx-button type="default" text="ثبت سفارش جدید" [disabled]="!isRowsSelected" (onClick)="onSubmitNewOrder()">
+        </dx-button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+:host {
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.layout-header {
+  z-index: 1501;
+}
+
+::ng-deep .selectedItem * {
+  color: #ff5722 !important;
+}

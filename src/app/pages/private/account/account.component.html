@@ -1,0 +1,71 @@
+<h2 class="content-block">اطلاعات حساب</h2>
+<div class="content-block">
+    <div class="dx-card responsive-paddings">
+        <dx-text-box class="w-75 w-md-100 my-4 mx-auto" name="cardNum" label="شماره کارت" labelMode="floating">
+        </dx-text-box>
+        <dx-text-box class="w-75 w-md-100 my-4 mx-auto" name="accountNum" label="شماره حساب" labelMode="floating">
+        </dx-text-box>
+        <dx-text-box class="w-75 w-md-100 my-4 mx-auto" name="shabaNum" label="شماره شبا" labelMode="floating">
+        </dx-text-box>
+        <div class="d-flex justify-center w-25 w-md-100 mx-auto">
+            <dx-button type="default" text="ثبت اطلاعات" class="w-100 mt-4">
+            </dx-button>
+        </div>
+    </div>
+</div>
+
+<h2 class="content-block">حساب های من</h2>
+<div class="content-block">
+    <div class="dx-card responsive-paddings list-container">
+        <dx-list height="100%" [dataSource]="myAccounts" itemTemplate="listItem" [grouped]="true"
+            [collapsibleGroups]="true" [searchEnabled]="true" searchMode="contains" searchExpr="key">
+            <div *dxTemplate="let item of 'listItem'">
+                <div class="d-flex flex-md-column items-center">
+                    <p class="label ms-3" style="width: 90px;">شماره کارت:</p>
+                    <div class="d-flex items-center">
+                        <p class="ms-3">
+                            {{item.cart}}
+                        </p>
+                        <dx-button [cdkCopyToClipboard]="item.cart" id="copyCart" icon="copy" stylingMode="text"
+                            type="success" (cdkCopyToClipboardCopied)="showCopyToClipboard('copyCart',item.cart)">
+                        </dx-button>
+                        <dx-tooltip target="#copyCart" showEvent="mouseenter" hideEvent="mouseleave"
+                            [hideOnOutsideClick]="false">
+                            <div *dxTemplate="let data = data; of: 'content'">کپی شماره کارت</div>
+                        </dx-tooltip>
+                    </div>
+                </div>
+                <div class="d-flex flex-md-column items-center mt-2">
+                    <p class="label ms-3" style="width: 90px;">شماره حساب:</p>
+                    <div class="d-flex items-center">
+                        <p class="ms-3">
+                            {{item.account}}
+                        </p>
+                        <dx-button [cdkCopyToClipboard]="item.account" id="copyAccount" icon="copy" stylingMode="text"
+                            type="success" (cdkCopyToClipboardCopied)="showCopyToClipboard('copyAccount',item.account)">
+                        </dx-button>
+                        <dx-tooltip target="#copyAccount" showEvent="mouseenter" hideEvent="mouseleave"
+                            [hideOnOutsideClick]="false">
+                            <div *dxTemplate="let data = data; of: 'content'">کپی شماره حساب</div>
+                        </dx-tooltip>
+                    </div>
+                </div>
+                <div class="d-flex flex-md-column items-center mt-2">
+                    <p class="label ms-3" style="width: 90px;">شماره شبا:</p>
+                    <div class="d-flex items-center">
+                        <p class="ms-3">
+                            {{item.sheba}}
+                        </p>
+                        <dx-button [cdkCopyToClipboard]="item.sheba" id="copySheba" icon="copy" stylingMode="text"
+                            type="success" (cdkCopyToClipboardCopied)="showCopyToClipboard('copySheba',item.sheba)">
+                        </dx-button>
+                        <dx-tooltip target="#copySheba" showEvent="mouseenter" hideEvent="mouseleave"
+                            [hideOnOutsideClick]="false">
+                            <div *dxTemplate="let data = data; of: 'content'">کپی شماره شبا</div>
+                        </dx-tooltip>
+                    </div>
+                </div>
+            </div>
+        </dx-list>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+.dx-card {
+    margin-block: 1rem;
+}
+
+input[type=number],
+input[type=text] {
+    height: 35px;
+    margin-inline: .5rem;
+    background: #fff;
+    border: 1px solid #D0D0DF;
+    color: #818190;
+    width: 100%;
+    max-width: 240px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 var(--border-width, 1px) var(--border, var(--border-default)), 0 1px 3px var(--shadow, var(--shadow-default));
+    transition: box-shadow .2s;
+}
+
+button {
+    min-width: 200px;
+    background-color: #6af1e2;
+    font-weight: bold;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #666;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin-inline: .5rem;
+}
+
+button:hover,
+button:focus {
+    background-color: #ccc;
+}
+
+::ng-deep .text-success i {
+    color: #22c55e !important;
+    font-size: 25px !important;
+}
+
+::ng-deep .text-danger i {
+    color: #dc2626 !important;
+    font-size: 25px !important;
+}
+
+::ng-deep .dx-checkbox-icon {
+    margin-left: 15px;
+}
+
+::ng-deep .dx-selectbox .dx-texteditor-input:read-only {
+    font-family: vazir, sans-serif;
+}
+
+::ng-deep .dx-empty-message {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disabled {
+    opacity: .38;
+}
+
+.dx-field-value {
+    width: 100% !important;
+}
+
+.productsData td {
+    vertical-align: middle !important;
+}
+
+::ng-deep .dx-selectbox .dx-texteditor-input:read-only {
+    font-family: vazir, sans-serif;
+}
+
+::ng-deep .dx-popup-bottom.dx-toolbar {
+    padding: 20px !important;
+}
+
+@media screen and (max-width: 768px) {
+    .flex-md-column {
+        flex-direction: column;
+
+        div {
+            margin-block: 0.5rem !important;
+        }
+
+        ::ng-deep .dx-radiogroup .dx-radiobutton {
+            margin-block: 0 !important;
+        }
+    }
+
+    .w-md-100 {
+        width: 100% !important;
+    }
+
+    .d-md-none {
+        display: none;
+    }
+}

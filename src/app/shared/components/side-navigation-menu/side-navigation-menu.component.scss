@@ -59,17 +59,17 @@
         &[aria-level='2'] .dx-treeview-item-content {
           font-weight: normal;
           // padding: 0 $side-panel-min-width;
-          padding: 0 40px !important;
+          padding: 0 60px !important;
         }
 
        &[aria-level='3'] .dx-treeview-item-content {
           font-weight: normal;
-          padding: 0 100px !important;
+          padding: 0 80px !important;
         }
 
         &[aria-level='4'] .dx-treeview-item-content {
           font-weight: normal;
-          padding: 0 120px !important;
+          padding: 0 100px !important;
         }
       }
 

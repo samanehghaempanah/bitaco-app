@@ -1,0 +1,40 @@
+<h2 class="content-block">فعالیت های تولیدی</h2>
+<div class="dx-card wide-card mx-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-box class="my-2" name="code" label="کد فعالیت" labelMode="floating">
+            </dx-text-box>
+            <dx-select-box [dataSource]="pageData.activityType" valueExpr="id" displayExpr="name"
+                placeholder="نوع فعالیت">
+            </dx-select-box>
+            <dx-text-box class="my-2" name="name" label="نام فعالیت" labelMode="floating">
+            </dx-text-box>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-area class="w-100 my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px">
+            </dx-text-area>
+        </div>
+    </div>
+</div>
+<div class="dx-card wide-card mx-4 mt-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <dx-data-grid [dataSource]="pageData.activities" keyExpr="id" [customizeColumns]="pageData.customizeColumns"
+            [hoverStateEnabled]="true" height="100%" noDataText=".داده ای وجود ندارد"
+            [(selectedRowKeys)]="pageData.gridBoxValue">
+            <dxi-column dataField="id">
+            </dxi-column>
+            <dxi-column dataField="code">
+            </dxi-column>
+            <dxi-column dataField="name">
+            </dxi-column>
+            <dxi-column dataField="description">
+            </dxi-column>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+    </div>
+</div>

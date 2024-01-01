@@ -1,0 +1,337 @@
+<h2 class="content-block">مشتری ها</h2>
+<div class="dx-card wide-card mx-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <dx-data-grid [dataSource]="pageData.customers" [customizeColumns]="pageData.customizeColumns"
+            [hoverStateEnabled]="true" [(selectedRowKeys)]="pageData.gridBoxValue" height="100%"
+            noDataText=".داده ای وجود ندارد" dataRowTemplate="dataRowTemplateName">
+            <ng-container *dxTemplate="let customer of 'dataRowTemplateName'">
+                <tr class="text-center">
+                    <td>{{customer.data.id}}</td>
+                    <td>{{customer.data.name}}</td>
+                    <td>{{customer.data.model}}</td>
+                    <td>{{customer.data.code}}</td>
+                    <td>{{customer.data.province}}</td>
+                    <td>{{customer.data.city}}</td>
+                    <!-- <td class="text-center">
+                        <dx-button icon="{{customer.data.edit}}" text="" class="text-warning"
+                            (onClick)="onEditCustomer(customer.data)">
+                        </dx-button>
+                    </td> -->
+                    <td class="text-center">
+                        <dx-button icon="eyeopen" text="" class="text-info" (onClick)="onViewCustomer(customer.data)">
+                        </dx-button>
+                    </td>
+                </tr>
+            </ng-container>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+        <!-- <div>
+            <dx-button text="افزودن مشتری جدید" icon="add" type="default" (onClick)="showNewDocForm($event)"
+                class="m-3"></dx-button>
+        </div> -->
+    </div>
+    <!-- <dx-popup width="95%" height="auto" maxHeight="80%" [hideOnOutsideClick]="false" [showCloseButton]="true"
+        [(visible)]="pageData.NewFormVisible" title="مشخصات مشتری جدید">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view width="100%" height="100%">
+                <div class="content">
+                    <dx-text-box class="my-2" name="name" label="نام مشتری" labelMode="floating"
+                        [(value)]="pageData.newFormData.name">
+                    </dx-text-box>
+                    <dx-select-box placeholder="" class="my-2" [dataSource]="pageData.customerType" valueExpr="text"
+                        displayExpr="text" label="نوع مشتری" name="type" labelMode="floating"
+                        [(value)]="pageData.newFormData.type">
+                    </dx-select-box>
+                    <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                        [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px"
+                        [(value)]="pageData.newFormData.description">
+                    </dx-text-area>
+                    <dx-date-box type="date" name="date" label="تاریخ ثبت مشتری" labelMode="floating"
+                        [(value)]="pageData.newFormData.date">
+                    </dx-date-box>
+                </div>
+            </dx-scroll-view>
+        </div>
+        <dxi-toolbar-item widget="dxButton" toolbar="bottom" location="center"
+            [options]="pageData.NewFormButtonOptions">
+        </dxi-toolbar-item>
+    </dx-popup> -->
+    <!-- <dx-popup width="95%" height="auto" maxHeight="80%" [hideOnOutsideClick]="false" [showCloseButton]="true"
+        [(visible)]="pageData.EditFormVisible" title="ویرایش مشخصات مشتری">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view width="100%" height="100%">
+                <div class="content">
+                    <dx-text-box class="my-2" name="name" label="نام مشتری" labelMode="floating"
+                        [(value)]="pageData.editFormData.name">
+                    </dx-text-box>
+                    <dx-select-box placeholder="" class="my-2" [dataSource]="pageData.customerType" valueExpr="text"
+                        displayExpr="text" label="نوع مشتری" name="type" labelMode="floating"
+                        [(value)]="pageData.editFormData.type">
+                    </dx-select-box>
+                    <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                        [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px" editFormData>
+                    </dx-text-area>
+                    <dx-date-box type="date" name="date" label="تاریخ ثبت مشتری" labelMode="floating"
+                        [(value)]="pageData.editFormData.date">
+                    </dx-date-box>
+                </div>
+            </dx-scroll-view>
+        </div>
+        <dxi-toolbar-item widget="dxButton" toolbar="bottom" location="center"
+            [options]="pageData.EditDocFormButtonOptions">
+        </dxi-toolbar-item>
+    </dx-popup> -->
+    <dx-popup width="95%" height="auto" maxHeight="80%" [hideOnOutsideClick]="true" [showCloseButton]="true"
+        [(visible)]="pageData.ViewFormVisible" title="مشخصات مشتری">
+        <div *dxTemplate="let data of 'content'">
+            <dx-tabs [dataSource]="pageData.tabs" [scrollByContent]="true" [showNavButtons]="true"
+                (onItemClick)="selectTab($event)" [selectedItem]="pageData.tabs[0]" selectionMode="single">
+            </dx-tabs>
+            <dx-scroll-view width="100%" height="100%" class="mt-4">
+                <div *ngIf="pageData.tabContent==='tab1'" class="content">
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام مشتری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.name}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نوع مشتری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.type}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            مدل مشتری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.model}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شناسه مشتری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.code}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            طرف مقابل:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.name}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام دوم:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.secondName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام نماینده:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.agentName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شناسه ملی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.nationalId}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کد اقتصادی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.economicCode}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره ثبت:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.registrationNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            زمینه فعالیت:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.activityField}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            مسئول:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.responsible}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شناسه حسابداری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.accountingId}}
+                        </p>
+                    </div>
+                </div>
+
+                <div *ngIf="pageData.tabContent==='tab2'" class="content">
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره تلفن:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.phoneNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره فکس:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.faxNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره همراه:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.mobileNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کدپستی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.postalCode}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کشور:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.country}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            استان:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.province}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شهر:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.city}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            آدرس:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.address}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            پست الکترونیک:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.email}}
+                        </p>
+                    </div>
+                </div>
+
+                <div *ngIf="pageData.tabContent==='tab3'" class="content">
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام بانک:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره حساب:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankAccountNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره شبا:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankShebaNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره کارت:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankCardNumber}}
+                        </p>
+                    </div>
+                </div>
+            </dx-scroll-view>
+        </div>
+    </dx-popup>
+</div>

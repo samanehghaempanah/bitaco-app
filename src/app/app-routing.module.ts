@@ -1,25 +1,28 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './shared/components';
-import { AuthGuardService } from './shared/services';
-import { HomeComponent } from './pages/public/home/home.component'
-import { ProfileComponent } from './pages/private/profile/profile.component';
-import { TasksComponent } from './pages/private/tasks/tasks.component';
-import { DxButtonModule, DxCalendarModule, DxChartModule, DxCheckBoxModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFileUploaderModule, DxFormModule, DxListModule, DxNumberBoxModule, DxPopupModule, DxRadioGroupModule, DxResponsiveBoxModule, DxScrollViewModule, DxSelectBoxModule, DxTabPanelModule, DxTabsModule, DxTextAreaModule, DxTextBoxComponent, DxTextBoxModule, DxTooltipModule, DxValidatorModule } from 'devextreme-angular';
-import { OrderComponent } from './pages/private/order/order.component';
+import { RouterModule, Routes } from '@angular/router';
+import { DxButtonModule, DxCalendarModule, DxChartModule, DxCheckBoxModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFileUploaderModule, DxFormModule, DxListModule, DxNumberBoxModule, DxPopupModule, DxRadioGroupModule, DxResponsiveBoxModule, DxScrollViewModule, DxSelectBoxModule, DxTabPanelModule, DxTabsModule, DxTextAreaModule, DxTextBoxModule, DxTooltipModule, DxValidatorModule } from 'devextreme-angular';
 import { DxiColModule, DxiItemModule, DxiLocationModule, DxiRowModule } from 'devextreme-angular/ui/nested';
 import { AccountComponent } from './pages/private/account/account.component';
-import { ProductComponent } from './pages/private/product/product.component';
+import { CustomersComponent } from './pages/private/basic/customers/customers.component';
+import { DepartmentsCodingComponent } from './pages/private/basic/departments-coding/departments-coding.component';
+import { ProductionActivitiesComponent } from './pages/private/basic/production-activities/production-activities.component';
+import { ProductsCodingComponent } from './pages/private/basic/products-coding/products-coding.component';
+import { SettingComponent } from './pages/private/setting/setting.component';
+import { WorkShiftsComponent } from './pages/private/basic/work-shifts/work-shifts.component';
 import { DesignComponent } from './pages/private/design/design.component';
-import { CommonModule } from '@angular/common';
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { BasicComponent } from './pages/private/basic/basic.component';
-import { HrComponent } from './pages/private/basic/hr/hr.component';
-import { LogisticComponent } from './pages/private/basic/logistic/logistic.component';
-import { ProductionComponent } from './pages/private/basic/production/production.component';
-import { FinancialComponent } from './pages/private/basic/financial/financial.component';
-import { SettingComponent } from './pages/private/basic/setting/setting.component';
-import { EngineeringComponent } from './pages/private/basic/engineering/engineering.component';
+import { OrderComponent } from './pages/private/order/order.component';
+import { ProfileComponent } from './pages/private/profile/profile.component';
+import { TasksComponent } from './pages/private/tasks/tasks.component';
+import { HomeComponent } from './pages/public/home/home.component';
+import { ChangePasswordFormComponent, CreateAccountFormComponent, LoginFormComponent, ResetPasswordFormComponent } from './shared/components';
+import { AuthGuardService } from './shared/services';
+import { FilmComponent } from './pages/private/product/film/film.component';
+import { PrintComponent } from './pages/private/product/print/print.component';
+import { EmployeesListComponent } from './pages/private/basic/employees/employees-list/employees-list.component';
+import { EmployeesTimesheetComponent } from './pages/private/basic/employees/employees-timesheet/employees-timesheet.component';
+import { EmployeesCalendarComponent } from './pages/private/basic/employees/employees-calendar/employees-calendar.component';
 
 const routes: Routes = [
   {
@@ -38,68 +41,66 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'basic/hr',
-    component: HrComponent,
+    path: 'basic/work-shifts',
+    component: WorkShiftsComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: 'basic/hr/customers',
-    component: HrComponent,
-    canActivate: [AuthGuardService],
-    data: { formType: 'customers' }
-  },
-  {
-    path: 'basic/hr/employees',
-    component: HrComponent,
-    canActivate: [AuthGuardService],
-    data: { formType: 'employees' }
-  },
-  {
-    path: 'basic/hr/employees/list',
-    component: HrComponent,
-    canActivate: [AuthGuardService],
-    data: { formType: 'list' }
-  },
-  {
-    path: 'basic/hr/employees/calendar',
-    component: HrComponent,
-    canActivate: [AuthGuardService],
-    data: { formType: 'calendar' }
-  },
-  {
-    path: 'basic/logistic',
-    component: LogisticComponent,
+    path: 'basic/production-activities',
+    component: ProductionActivitiesComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: 'basic/engineering',
-    component: EngineeringComponent,
+    path: 'basic/departments-coding',
+    component: DepartmentsCodingComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: 'basic/production',
-    component: ProductionComponent,
+    path: 'basic/products-coding',
+    component: ProductsCodingComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: 'basic/financial',
-    component: FinancialComponent,
+    path: 'basic/employees/employees-calendar',
+    component: EmployeesCalendarComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'basic/employees/employees-timesheet',
+    component: EmployeesTimesheetComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'basic/employees/employees-list',
+    component: EmployeesListComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'basic/customers',
+    component: CustomersComponent,
     canActivate: [AuthGuardService]
   },
   {
-    path: 'basic/setting',
-    component: SettingComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'product',
-    component: ProductComponent,
+    path: 'product/print',
+    component: PrintComponent,
     canActivate: [AuthGuardService],
     data: { formType: 'list' }
   },
   {
-    path: 'product/new',
-    component: ProductComponent,
+    path: 'product/print/new',
+    component: PrintComponent,
+    canActivate: [AuthGuardService],
+    data: { formType: 'new' }
+  },
+  {
+    path: 'product/film',
+    component: FilmComponent,
+    canActivate: [AuthGuardService],
+    data: { formType: 'list' }
+  },
+  {
+    path: 'product/film/new',
+    component: FilmComponent,
     canActivate: [AuthGuardService],
     data: { formType: 'new' }
   },
@@ -126,6 +127,11 @@ const routes: Routes = [
     component: DesignComponent,
     canActivate: [AuthGuardService],
     data: { formType: 'new' }
+  },
+  {
+    path: 'setting',
+    component: SettingComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'tasks',
@@ -173,17 +179,20 @@ const routes: Routes = [
     HomeComponent,
     ProfileComponent,
     AccountComponent,
-    BasicComponent,
-    HrComponent,
-    LogisticComponent,
-    EngineeringComponent,
-    ProductionComponent,
-    FinancialComponent,
     SettingComponent,
-    ProductComponent,
     OrderComponent,
     DesignComponent,
     TasksComponent,
+    CustomersComponent,
+    ProductsCodingComponent,
+    DepartmentsCodingComponent,
+    ProductionActivitiesComponent,
+    WorkShiftsComponent,
+    FilmComponent,
+    PrintComponent,
+    EmployeesListComponent,
+    EmployeesTimesheetComponent,
+    EmployeesCalendarComponent,
   ]
 })
 export class AppRoutingModule { }

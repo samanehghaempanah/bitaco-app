@@ -1,0 +1,81 @@
+<h2 class="content-block">کدینگ واحدها (ثبت ماشین آلات)</h2>
+<div class="dx-card wide-card mx-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-box class="my-2" name="code" label="شناسه" labelMode="floating">
+            </dx-text-box>
+            <dx-select-box [dataSource]="pageData.unitName" valueExpr="id" displayExpr="name" placeholder="نام واحد">
+            </dx-select-box>
+            <dx-text-box class="my-2" name="deviceName" label="نام دستگاه" labelMode="floating">
+            </dx-text-box>
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="minSpeed" [step]="1" [min]="0" [max]="1000" label="حداقل سرعت"
+                    labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="maxSpeed" [step]="1" [min]="0" [max]="1000" label="حداکثر سرعت"
+                    labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="prepareTime" [step]="1" [min]="0" [max]="1000" label="زمان آماده سازی"
+                    labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="loadingTime" [step]="1" [min]="0" [max]="1000"
+                    label="زمان هر بارگذاری" labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="minWastage" [step]="1" [min]="0" [max]="1000" label="حداقل ضایعات"
+                    labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="maxWastage" [step]="1" [min]="0" [max]="1000" label="حداکثر ضایعات"
+                    labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+            <dx-number-box format="#,##0.00" class="my-2" name="coefficient" [step]="1" [min]="0" [max]="1000"
+                label="ضریب" labelMode="floating" [showSpinButtons]="true">
+            </dx-number-box>
+            <dx-number-box format="#,##0.00" class="my-2" name="meteragePerHour" [step]="1" [min]="0" [max]="1000"
+                label="متراژ در ساعت" labelMode="floating" [showSpinButtons]="true">
+            </dx-number-box>
+        </div>
+    </div>
+</div>
+
+<div class="dx-card wide-card mx-4 mt-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <dx-data-grid [dataSource]="pageData.departments" keyExpr="id" [customizeColumns]="pageData.customizeColumns"
+            [hoverStateEnabled]="true" height="100%" noDataText=".داده ای وجود ندارد"
+            [(selectedRowKeys)]="pageData.gridBoxValue">
+            <dxi-column dataField="id">
+            </dxi-column>
+            <dxi-column dataField="code">
+            </dxi-column>
+            <dxi-column dataField="unitName">
+            </dxi-column>
+            <dxi-column dataField="device">
+            </dxi-column>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+    </div>
+</div>

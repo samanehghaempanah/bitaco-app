@@ -8,11 +8,12 @@ import * as moment from 'jalali-moment';
 import { ColorModel, DesignModel } from 'src/app/shared/definitions/models/entities.model';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  selector: 'app-print',
+  templateUrl: './print.component.html',
+  styleUrls: ['./print.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class PrintComponent implements OnInit {
+
   @ViewChild('dataGridRef', { static: false }) dataGrid: DxDataGridComponent | undefined;
   selectedRowsData: any = [];
   finalData: any = [];
@@ -26,6 +27,7 @@ export class ProductComponent implements OnInit {
     punchIsEnabled: false,
     printIsEnabled: false,
     matteIsEnabled: false,
+    threatmentIsEnabled: false,
     coldIsEnabled: false,
     varnishIsEnabled: false,
     fileUploader1: true,
@@ -47,7 +49,7 @@ export class ProductComponent implements OnInit {
     type: '',
     description: '',
     path: '',
-    fileData: {} as any,
+    fileData: [] as any,
   }
 
   editDocFormData = {
@@ -839,10 +841,10 @@ export class ProductComponent implements OnInit {
           this.documents.push({
             id: newId,
             type: this.newDocFormData.type,
-            name: this.newDocFormData.fileData[0].name,
+            name: this.newDocFormData.fileData[0]?.name,
             // path: '/assets/files/' + this.newDocFormData.fileData[0].name,
             description: this.newDocFormData.description,
-            suffix: this.newDocFormData.fileData[0].type.split("/", 2)[1],
+            suffix: this.newDocFormData.fileData[0]?.type.split("/", 2)[1],
             date: moment(new Date()).locale('fa').format('YYYY/MM/DD'),
             hour: moment(new Date()).locale('fa').format('HH:mm'),
             Registrar: 'سمانه قائم پناه',
@@ -851,6 +853,11 @@ export class ProductComponent implements OnInit {
             download: 'download'
           });
         }
+
+        this.newDocFormData.type = '';
+        this.newDocFormData.description = '';
+        this.newDocFormData.path = '';
+        this.newDocFormData.fileData = [];
       },
     };
 
@@ -918,6 +925,10 @@ export class ProductComponent implements OnInit {
 
   enableMatte() {
     this.pageData.matteIsEnabled = !this.pageData.matteIsEnabled;
+  }
+
+  enableThreatment() {
+    this.pageData.threatmentIsEnabled = !this.pageData.threatmentIsEnabled;
   }
 
   enableVarnish() {
@@ -1134,6 +1145,13 @@ export class ProductComponent implements OnInit {
     this.pageData.NewDocFormVisible = true;
   }
 
+  showNewColdMapForm(e: any) {
+    console.log("showNewDocForm event:", e);
+    this.newDocFormData.type= 'نقشه کلدسیل';
+    this.tabContent='tab8';
+    this.pageData.NewDocFormVisible = true;
+  }
+
   showPopup() {
     this.pageData.popupVisible = true;
   }
@@ -1150,3 +1168,4 @@ export class ProductComponent implements OnInit {
     e.preventDefault();
   };
 }
+

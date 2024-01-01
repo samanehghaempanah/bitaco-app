@@ -1,0 +1,77 @@
+<h2 class="content-block">کدینگ کالا</h2>
+<div class="dx-card wide-card mx-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-select-box [dataSource]="pageData.category" valueExpr="id" displayExpr="name" placeholder="دسته">
+                <!-- (onValueChanged)="departmentChange()" -->
+            </dx-select-box>
+            <dx-text-box class="my-2" name="preCode" label="پیش کد" labelMode="floating">
+                <!-- [(value)]="pageData.newFormData.name" -->
+            </dx-text-box>
+            <dx-text-box class="my-2" name="productId" label="شناسه کالا" labelMode="floating">
+                <!-- [(value)]="pageData.newFormData.name" -->
+            </dx-text-box>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-box class="w-75 my-2" name="productName" label="نام کالا" labelMode="floating">
+                <!-- [(value)]="pageData.newFormData.name" -->
+            </dx-text-box>
+            <dx-text-box class="my-2" name="preName" label="پیش نام" labelMode="floating">
+                <!-- [(value)]="pageData.newFormData.name" -->
+            </dx-text-box>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-select-box [dataSource]="pageData.unit" valueExpr="id" displayExpr="name" placeholder="واحد">
+                <!-- (onValueChanged)="departmentChange()" -->
+            </dx-select-box>
+            <dx-number-box format="#,##0.00" class="my-2" name="GSM" [step]="1" [min]="0" [max]="1000"
+                label="گرماژ و درصد ماده خشک" labelMode="floating" [showSpinButtons]="true">
+            </dx-number-box>
+            <dx-number-box format="#,##0.00" class="my-2" name="inventory" [step]="1" [min]="0" [max]="1000"
+                label="موجودی اطمینان" labelMode="floating" [showSpinButtons]="true">
+            </dx-number-box>
+            <dx-text-box class="my-2" name="accountingCode" label="کد حسابداری" labelMode="floating">
+                <!-- [(value)]="pageData.newFormData.name" -->
+            </dx-text-box>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px" class="flex-1">
+                <!-- [(value)]="pageData.newFormData.description" -->
+            </dx-text-area>
+        </div>
+    </div>
+</div>
+
+<div class="dx-card wide-card mx-4 mt-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <dx-data-grid [dataSource]="pageData.products" keyExpr="id" [customizeColumns]="pageData.customizeColumns"
+            [hoverStateEnabled]="true" height="100%" noDataText=".داده ای وجود ندارد"
+            [(selectedRowKeys)]="pageData.gridBoxValue">
+            <dxi-column dataField="id">
+            </dxi-column>
+            <dxi-column dataField="code">
+            </dxi-column>
+            <dxi-column dataField="name">
+            </dxi-column>
+            <dxi-column dataField="unit">
+                <!-- [(filterValue)]="pageData.selectedDepartment" -->
+            </dxi-column>
+            <dxi-column dataField="description">
+            </dxi-column>
+            <dxi-column dataField="preCode">
+            </dxi-column>
+            <dxi-column dataField="preName">
+            </dxi-column>
+            <dxi-column dataField="inventory">
+            </dxi-column>
+            <dxi-column dataField="accountingCode">
+            </dxi-column>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+    </div>
+</div>

@@ -8,7 +8,9 @@ import { Component } from '@angular/core';
 export class ProfileComponent {
   headerInfo: any;
   employee: any;
-  colCountByScreen: object;
+  changePassword: any;
+  employeeFormColCount: object;
+  changePasswordFormColCount: object;
 
   constructor() {
 
@@ -31,11 +33,24 @@ export class ProfileComponent {
       /* tslint:disable-next-line:max-line-length */
     };
 
-    this.colCountByScreen = {
+    this.changePassword = {
+      'رمز عبور قبلی': '',
+      'رمز عبور جدید': '',
+      'تکرار رمز عبور جدید': ''
+    };
+
+    this.employeeFormColCount = {
       xs: 1,
       sm: 2,
       md: 3,
       lg: 4
+    };
+
+    this.changePasswordFormColCount = {
+      xs: 1,
+      sm: 1,
+      md: 1,
+      lg: 1
     };
   }
 }

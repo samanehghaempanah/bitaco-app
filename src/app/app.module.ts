@@ -6,10 +6,10 @@ import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule 
 import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
-import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/config/shared.module';
 import { DxResponsiveBoxModule } from 'devextreme-angular';
 import { DxiColModule, DxiItemModule, DxiLocationModule, DxiRowModule } from 'devextreme-angular/ui/nested';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [

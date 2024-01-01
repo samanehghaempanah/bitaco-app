@@ -1,6 +1,6 @@
 <!-- New Product -->
 <div *ngIf="pageData.formType==='new'">
-    <h2 class="content-block">ثبت محصول جدید</h2>
+    <h2 class="content-block">ثبت محصول بسته بندی و چاپ</h2>
     <div id="scrolledtabs" class="dx-card wide-card mx-4">
         <dx-tabs [dataSource]="tabs" [scrollByContent]="true" [showNavButtons]="true" (onItemClick)="selectTab($event)"
             [selectedItem]="tabs[0]" selectionMode="single"></dx-tabs>
@@ -280,8 +280,7 @@
             </div>
         </div>
         <div *ngIf="tabContent==='tab3'" class="packageType responsive-paddings">
-            <dx-check-box class="my-2" text="مات کننده" width="200px" class="lable-box"
-                (onValueChanged)="enableMatte()">
+            <dx-check-box class="my-2" text="لمینت" width="200px" class="lable-box" (onValueChanged)="enableMatte()">
             </dx-check-box>
             <hr>
             <div class="d-flex flex-column column-gap my-3 w-25 w-md-100">
@@ -300,10 +299,17 @@
                     label="گرماژ پیشنهادی لمینت" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
                     [disabled]="!pageData.matteIsEnabled">
                 </dx-number-box>
+            </div>
+
+            <dx-check-box class="my-2" text="تریتمنت" width="200px" class="lable-box my-2 mt-5"
+                (onValueChanged)="enableThreatment()">
+            </dx-check-box>
+            <hr>
+            <div class="d-flex flex-column column-gap my-3 w-25 w-md-100">
                 <div class="d-flex items-center">
                     <dx-number-box class="my-2" name="matteThreatment" [step]="1" [min]="0" [max]="1000"
-                        label="Threatment" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
-                        [disabled]="!pageData.matteIsEnabled">
+                        label="تریتمنت" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                        [disabled]="!pageData.threatmentIsEnabled">
                     </dx-number-box>
                     <span class="me-3">dyne</span>
                 </div>
@@ -321,6 +327,11 @@
                     format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
                     [disabled]="!pageData.coldIsEnabled">
                 </dx-number-box>
+                <div class="d-flex ">
+                    <dx-button [disabled]="!pageData.coldIsEnabled" text="آپلود فایل نقشه کلدسیل" icon="add" type="default"
+                        (onClick)="showNewColdMapForm($event)" class="my-2 mt-4">
+                    </dx-button>
+                </div>
             </div>
 
             <dx-check-box class="my-2" text="لاک و پوشش" width="200px" class="lable-box mt-5"
@@ -512,10 +523,6 @@
                 </dx-text-box>
             </div>
         </div>
-        <div *ngIf="tabContent==='tab7'" class="d-flex justify-center my-4">
-            <dx-button type="default" text="ثبت محصول جدید" (onClick)="onSubmitNewProduct()">
-            </dx-button>
-        </div>
         <div *ngIf="tabContent==='tab8'" class="d-flex flex-column justify-center my-4">
             <dx-data-grid [dataSource]="documents" [customizeColumns]="customizeDocumentColumns"
                 [hoverStateEnabled]="true" [(selectedRowKeys)]="gridBoxDocumentValue" height="100%"
@@ -528,7 +535,7 @@
                         <!-- <td>{{document.data.path}}</td> -->
                         <td>{{document.data.description}}</td>
                         <td class="text-center">
-                            <img [src]="'/assets/images/file-type/'+document.data.suffix+'.png'"
+                            <img *ngIf="document.data.suffix?.length>0" [src]="'/assets/images/file-type/'+document.data.suffix+'.png'"
                                 class="fileTypeImage" />
                         </td>
                         <td>{{document.data.date}}</td>
@@ -563,6 +570,10 @@
                     class="m-3"></dx-button>
             </div>
         </div>
+        <div class="d-flex justify-center my-4">
+            <dx-button type="default" text="ثبت محصول جدید" (onClick)="onSubmitNewProduct()">
+            </dx-button>
+        </div>
         <dx-popup [width]="400" [height]="600" [hideOnOutsideClick]="false" [showCloseButton]="true"
             [(visible)]="pageData.NewDocFormVisible" title="مشخصات فایل جدید">
             <div *dxTemplate="let data of 'content'">
@@ -576,11 +587,11 @@
                             labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true"
                             height="100px" [(value)]="newDocFormData.description">
                         </dx-text-area>
-                        <dx-file-uploader (onValueChanged)="newDocFilesUploaded($event)"
+                        <dx-file-uploader (onValueChanged)="newDocFilesUploaded($event)" [value]="newDocFormData.fileData"
                             [allowedFileExtensions]="docFileExtention" [allowCanceling]="true"
                             selectButtonText="بارگزاری فایل جدید" labelText="یا فایل را در این قسمت بکشید...">
                         </dx-file-uploader>
-                        <div class="text-center my-4">
+                        <div *ngIf="newDocFormData.fileData.length>0" class="text-center my-4">
                             <img [src]="newDocFormData.path" style="width: 200px;" />
                         </div>
                     </div>
@@ -726,7 +737,7 @@
 
 <!-- My Products -->
 <div *ngIf="pageData.formType==='list'">
-    <h2 class="content-block">محصولات من</h2>
+    <h2 class="content-block">محصولات بسته بندی و چاپ</h2>
     <dx-data-grid #dataGridRef (onSelectionChanged)="getSelectedData()" class="dx-card wide-card mx-4"
         [dataSource]="dataSource" [showBorders]="false" [focusedRowEnabled]="true" [focusedRowIndex]="0"
         [columnAutoWidth]="true" [columnHidingEnabled]="true">

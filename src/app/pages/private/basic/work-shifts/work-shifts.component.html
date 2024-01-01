@@ -1,0 +1,57 @@
+<h2 class="content-block">شیفت های کاری</h2>
+<div class="dx-card wide-card mx-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-box class="my-2" name="code" label="کد شیفت" labelMode="floating">
+            </dx-text-box>
+            <dx-text-box class="my-2" name="name" label="نام شیفت" labelMode="floating">
+            </dx-text-box>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-date-box pickerType="rollers" [value]="pageData.now" type="time" name="startTime" label="شروع"
+                labelMode="floating" placeholder="انتخاب زمان شروع">
+            </dx-date-box>
+            <dx-date-box pickerType="rollers" [value]="pageData.now" type="time" name="endTime" label="پایان" labelMode="floating" placeholder="انتخاب زمان پایان">
+            </dx-date-box>
+            <div class="order-md-2 d-flex items-center">
+                <dx-number-box class="my-2" name="restTime" [step]="1" [min]="0" [max]="1000" label="زمان استراحت مجاز"
+                    labelMode="floating" [showSpinButtons]="true">
+                </dx-number-box>
+                <span class="me-3">دقیقه</span>
+            </div>
+        </div>
+        <div class="d-flex column-gap mx-4 mb-5">
+            <dx-text-area class="w-100 my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px">
+            </dx-text-area>
+        </div>
+    </div>
+</div>
+
+<div class="dx-card wide-card mx-4 mt-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <dx-data-grid [dataSource]="pageData.shifts" keyExpr="id" [customizeColumns]="pageData.customizeColumns"
+            [hoverStateEnabled]="true" height="100%" noDataText=".داده ای وجود ندارد"
+            [(selectedRowKeys)]="pageData.gridBoxValue">
+            <dxi-column dataField="id">
+            </dxi-column>
+            <dxi-column dataField="code">
+            </dxi-column>
+            <dxi-column dataField="name">
+            </dxi-column>
+            <dxi-column dataField="startTime">
+            </dxi-column>
+            <dxi-column dataField="endTime">
+            </dxi-column>
+            <dxi-column dataField="restTime">
+            </dxi-column>
+            <dxi-column dataField="description">
+            </dxi-column>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+    </div>
+</div>

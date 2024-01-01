@@ -1,0 +1,378 @@
+<h2 class="content-block">لیست پرسنل</h2>
+<div *ngIf="pageData.employees.length>0" class="dx-card wide-card mx-4">
+    <div class="d-flex flex-column justify-center my-4">
+        <dx-data-grid [dataSource]="pageData.employees" keyExpr="id"
+            [customizeColumns]="pageData.customizeEmployeeColumns" [hoverStateEnabled]="true" height="100%"
+            noDataText=".داده ای وجود ندارد" [(selectedRowKeys)]="pageData.gridListBoxValue"
+            dataRowTemplate="dataRowTemplateName">
+            <ng-container *dxTemplate="let employee of 'dataRowTemplateName'">
+                <tr class="text-center">
+                    <td>{{employee.data.id}}</td>
+                    <td>{{employee.data.code}}</td>
+                    <td>{{employee.data.fName}}</td>
+                    <td>{{employee.data.lName}}</td>
+                    <td>{{employee.data.department}}</td>
+                    <!-- <td class="text-center">
+                            <dx-button icon="{{customer.data.edit}}" text="" class="text-warning"
+                                (onClick)="onEditCustomer(customer.data)">
+                            </dx-button>
+                        </td> -->
+                    <td class="text-center">
+                        <dx-button icon="eyeopen" text="" class="text-info" hint="نمایش جزئیات"
+                            (onClick)="onViewEmployee(employee.data)">
+                        </dx-button>
+                    </td>
+                </tr>
+            </ng-container>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+        <!-- <div>
+            <dx-button text="افزودن پرسنل جدید" icon="add" type="default" (onClick)="showNewDocForm($event)"
+                class="m-3"></dx-button>
+        </div> -->
+    </div>
+    <!-- <dx-popup [width]="400" [height]="600" [hideOnOutsideClick]="false" [showCloseButton]="true"
+        [(visible)]="pageData.NewFormVisible" title="مشخصات پرسنل جدید">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view width="100%" height="100%">
+                <div class="content">
+                    <dx-text-box class="my-2" name="name" label="نام پرسنل" labelMode="floating"
+                        [(value)]="pageData.newFormData.name">
+                    </dx-text-box>
+                    <dx-select-box placeholder="" class="my-2" [dataSource]="pageData.customerType" valueExpr="text"
+                        displayExpr="text" label="نوع پرسنل" name="type" labelMode="floating"
+                        [(value)]="pageData.newFormData.type">
+                    </dx-select-box>
+                    <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                        [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px"
+                        [(value)]="pageData.newFormData.description">
+                    </dx-text-area>
+                    <dx-date-box type="date" name="date" label="تاریخ ثبت پرسنل" labelMode="floating"
+                        [(value)]="pageData.newFormData.date">
+                    </dx-date-box>
+                </div>
+            </dx-scroll-view>
+        </div>
+        <dxi-toolbar-item widget="dxButton" toolbar="bottom" location="center"
+            [options]="pageData.NewFormButtonOptions">
+        </dxi-toolbar-item>
+    </dx-popup> -->
+    <!-- <dx-popup [width]="400" [height]="600" [hideOnOutsideClick]="false" [showCloseButton]="true"
+        [(visible)]="pageData.EditFormVisible" title="ویرایش مشخصات پرسنل">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view width="100%" height="100%">
+                <div class="content">
+                    <dx-text-box class="my-2" name="name" label="نام پرسنل" labelMode="floating"
+                        [(value)]="pageData.editFormData.name">
+                    </dx-text-box>
+                    <dx-select-box placeholder="" class="my-2" [dataSource]="pageData.customerType" valueExpr="text"
+                        displayExpr="text" label="نوع پرسنل" name="type" labelMode="floating"
+                        [(value)]="pageData.editFormData.type">
+                    </dx-select-box>
+                    <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات" labelMode="floating"
+                        [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" height="100px" editFormData>
+                    </dx-text-area>
+                    <dx-date-box type="date" name="date" label="تاریخ ثبت پرسنل" labelMode="floating"
+                        [(value)]="pageData.editFormData.date">
+                    </dx-date-box>
+                </div>
+            </dx-scroll-view>
+        </div>
+        <dxi-toolbar-item widget="dxButton" toolbar="bottom" location="center"
+            [options]="pageData.EditDocFormButtonOptions">
+        </dxi-toolbar-item>
+    </dx-popup> -->
+    <dx-popup width="95%" height="auto" maxHeight="80%" [hideOnOutsideClick]="true" [showCloseButton]="true"
+        [(visible)]="pageData.employeeViewFormVisible" title="مشخصات پرسنل">
+        <div *dxTemplate="let data of 'content'">
+            <dx-tabs [dataSource]="pageData.tabs" [scrollByContent]="true" [showNavButtons]="true"
+                (onItemClick)="selectTab($event)" [selectedItem]="pageData.tabs[0]" selectionMode="single">
+            </dx-tabs>
+            <dx-scroll-view width="100%" height="100%" class="mt-4">
+                <div *ngIf="pageData.tabContent==='tab1'" class="content">
+                    <div class="d-flex justify-center items-center column-gap my-3">
+                        <img [src]="pageData.viewFormData.personalPhoto" style="width: 100px;" />
+                    </div>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.fName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام خانوادگی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.lName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-between items-center">
+                        <div class="d-flex items-center column-gap my-3">
+                            <label class="text-primary">
+                                شماره پرسنلی:
+                            </label>
+                            <p class="text-muted">
+                                {{pageData.viewFormData.code}}
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کد ملی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.nationalCode}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره شناسنامه:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.certificateId}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام پدر:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.fatherName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            محل تولد:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.born}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            تاریخ تولد:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.birthdayDate}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            جنسیت:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.gender}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            واحد کاری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.department}}
+                        </p>
+                    </div>
+                </div>
+
+                <div *ngIf="pageData.tabContent==='tab2'" class="content">
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            تحصیلات:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.education}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            وضعیت خدمت:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.militaryStatus}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            وضعیت تاهل:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.maritalStatus}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            تعداد فرزندان:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.childrenNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            گروه خونی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bloodType}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            قد:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.hight}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کد بیمه:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.insuranceCode}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کد ساعت زن:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.rollCallCode}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کد برهان:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.borhanCode}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            کلمه عبور:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.password}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            تصویر کارت ملی:
+                        </label>
+                        <img [src]="pageData.viewFormData.nationalCardImage" style="width: 100px;" />
+
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            تصویر شناسنامه:
+                        </label>
+                        <img [src]="pageData.viewFormData.certificationImage" style="width: 100px;" />
+                    </div>
+                </div>
+
+                <div *ngIf="pageData.tabContent==='tab3'" class="content">
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره همراه:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.mobileNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره منزل:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.homeNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            تلفن ضروری:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.emergencyPhone}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            آدرس:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.address}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            پست الکترونیک:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.email}}
+                        </p>
+                    </div>
+                </div>
+
+                <div *ngIf="pageData.tabContent==='tab4'" class="content">
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            نام بانک:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankName}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            حساب بانکی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankAccountNumber}}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="d-flex items-center column-gap my-3">
+                        <label class="text-primary">
+                            شماره کارت بانکی:
+                        </label>
+                        <p class="text-muted">
+                            {{pageData.viewFormData.bankCardNumber}}
+                        </p>
+                    </div>
+                </div>
+            </dx-scroll-view>
+        </div>
+    </dx-popup>
+</div>

@@ -1,0 +1,29 @@
+td {
+    vertical-align: middle !important;
+}
+
+hr {
+    width: 60%;
+    height: 1px;
+    background-color: #efefef;
+    border: none;
+    margin: 10px 0;
+}
+
+::ng-deep .text-info i {
+    color: #2563eb !important;
+    font-size: 25px !important;
+}
+
+::ng-deep .text-warning i {
+    color: #facc15 !important;
+    font-size: 25px !important;
+}
+
+::ng-deep .dx-popup-bottom.dx-toolbar {
+    padding: 20px !important;
+}
+
+::ng-deep .dx-datagrid .dx-link {
+    color: #2563eb;
+}

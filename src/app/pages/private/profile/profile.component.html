@@ -2,16 +2,26 @@
 
 <div class="content-block dx-card responsive-paddings">
   <div class="form-avatar">
-    <img src="{{headerInfo.Picture}}"/>
+    <img src="{{headerInfo.Picture}}" />
   </div>
   <span>{{headerInfo.Notes}}</span>
 </div>
 
 <div class="content-block dx-card responsive-paddings">
-  <dx-form id="form"
-    [formData]="employee"
-    labelLocation="top"
-    [colCountByScreen]="colCountByScreen"
-  >
+  <dx-form id="form" [formData]="employee" labelLocation="top" [colCountByScreen]="employeeFormColCount">
   </dx-form>
+  <div class="d-flex justify-center w-25 w-md-100 mx-auto my-2">
+    <dx-button type="default" text="ثبت" class="w-100 mt-4">
+    </dx-button>
+  </div>
+</div>
+
+<h2 class="content-block">تغییر رمز عبور</h2>
+<div class="content-block dx-card responsive-paddings">
+  <dx-form id="form" class="w-50 w-md-100" [formData]="changePassword" labelLocation="top" [colCountByScreen]="changePasswordFormColCount">
+  </dx-form>
+  <div class="d-flex justify-center w-25 w-md-100 mx-auto my-2">
+    <dx-button type="default" text="تایید" class="w-100 mt-4">
+    </dx-button>
+  </div>
 </div>

@@ -20,55 +20,44 @@ export const navigation = [
     icon: 'rename',
     items: [
       {
-        text: 'منابع انسانی',
-        icon: 'check',
+        text: 'مشتری ها',
+        path: 'basic/customers',
+      },
+      {
+        text: 'پرسنل',
+        // path: '',
         hasItems: true,
         items: [
           {
-            text: 'اشخاص',
-            path: 'basic/hr/customers',
+            text: 'لیست پرسنل',
+            path: 'basic/employees/employees-list',
           },
           {
-            text: 'پرسنل',
-            // path: 'basic/hr/employees',
-            hasItems: true,
-            items: [
-              {
-                text: 'لیست پرسنل',
-                path: 'basic/hr/employees/list',
-              },
-              {
-                text: 'تقویم کاری',
-                path: 'basic/hr/employees/calendar',
-              }
-            ]
+            text: 'کارکردهای پرسنل',
+            path: 'basic/employees/employees-timesheet',
+          },
+          {
+            text: 'تقویم کاری',
+            path: 'basic/employees/employees-calendar',
+            disabled: true
           }
         ]
       },
       {
-        text: 'لجستیک',
-        path: 'basic/logistic',
-        icon: 'check',
+        text: 'کدینگ کالا',
+        path: 'basic/products-coding',
       },
       {
-        text: 'مهندسی و تحقیق توسعه',
-        path: 'basic/engineering',
-        icon: 'check',
+        text: 'کدینگ واحد ها',
+        path: 'basic/departments-coding',
       },
       {
-        text: 'تولید و برنامه ریزی',
-        path: 'basic/production',
-        icon: 'check',
+        text: 'فعالیت های تولیدی',
+        path: 'basic/production-activities',
       },
       {
-        text: 'مالی',
-        path: 'basic/financial',
-        icon: 'check',
-      },
-      {
-        text: 'تنظیمات',
-        path: 'basic/setting',
-        icon: 'check',
+        text: 'شیفت های کاری',
+        path: 'basic/work-shifts',
       }
     ]
   },
@@ -78,12 +67,32 @@ export const navigation = [
     icon: 'cart',
     items: [
       {
-        text: 'ثبت محصول',
-        path: 'product/new'
+        text: 'محصولات بسته بندی و چاپ',
+        hasItems: true,
+        items: [
+          {
+            text: 'ثبت محصول',
+            path: 'product/print/new'
+          },
+          {
+            text: 'محصولات من',
+            path: 'product/print'
+          }
+        ]
       },
       {
-        text: 'محصولات من',
-        path: 'product'
+        text: 'محصولات تولید فیلم',
+        hasItems: true,
+        items: [
+          {
+            text: 'ثبت محصول',
+            path: 'product/film/new'
+          },
+          {
+            text: 'محصولات من',
+            path: 'product/film'
+          }
+        ]
       }
     ]
   },
@@ -135,6 +144,18 @@ export const navigation = [
     text: 'رضایت مندی',
     // path: '',
     icon: 'favorites',
+    disabled: true
+  },
+  {
+    text: 'تنظیمات',
+    // path: '',
+    icon: 'preferences',
+    items: [
+      {
+        text: 'پوسته برنامه',
+        path: 'setting',
+      }
+    ],
     disabled: true
   },
 

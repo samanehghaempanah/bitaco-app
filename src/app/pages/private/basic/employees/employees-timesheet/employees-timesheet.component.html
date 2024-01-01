@@ -50,35 +50,38 @@
 </div>
 
 <h2 class="content-block">جزئیات کارکرد</h2>
-<div *ngIf="!showTimeSheetDetails" class="dx-card wide-card mx-4 mt-4 p-4">
+<div *ngIf="!pageData.showTimeSheetDetails" class="dx-card wide-card mx-4 mt-4 p-4">
     <label>پرسنلی انتخاب نشده است!</label>
 </div>
-<div *ngIf="showTimeSheetDetails" class="dx-card wide-card mx-4 mt-4 p-4">
-    <div class="d-flex items-center column-gap my-3">
-        <label class="text-primary">
-            نام و نام خانوادگی:
-        </label>
-        <p class="text-muted">
-            {{selectedEmployee.fName}} + {{selectedEmployee.lName}}
-        </p>
-    </div>
-    <div class="d-flex items-center column-gap my-3">
-        <label class="text-primary">
-            کد پرسنلی:
-        </label>
-        <p class="text-muted">
-            {{selectedEmployee.code}}
+<div *ngIf="pageData.showTimeSheetDetails" class="dx-card wide-card mx-4 mt-4 p-4">
+    <div class="d-flex justify-between items-center px-2">
+        <div class="d-flex items-center column-gap my-3">
+            <label class="text-primary">
+                نام پرسنل:
+            </label>
+            <p class="text-muted">
+                {{pageData.selectedEmployee.fName}} {{pageData.selectedEmployee.lName}}
+            </p>
+        </div>
+        <div class="d-flex items-center column-gap my-3">
+            <label class="text-primary">
+                کد پرسنلی:
+            </label>
+            <p class="text-muted">
+                {{pageData.selectedEmployee.code}}
 
-        </p>
+            </p>
+        </div>
+        <div class="d-flex items-center column-gap my-3">
+            <label class="text-primary">
+                محل خدمت:
+            </label>
+            <p class="text-muted">
+                {{pageData.selectedEmployee.department}}
+            </p>
+        </div>
     </div>
-    <div class="d-flex items-center column-gap my-3">
-        <label class="text-primary">
-            محل خدمت:
-        </label>
-        <p class="text-muted">
-            {{selectedEmployee.department}}
-        </p>
-    </div>
+    <hr/>
     <div class="d-flex flex-column justify-center my-4">
         <dx-data-grid [dataSource]="pageData.employeeTimeSheet" keyExpr="id"
             [customizeColumns]="pageData.customizeTimeSheetDetailsColumns" [hoverStateEnabled]="true" height="100%"

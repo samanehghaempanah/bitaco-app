@@ -10,16 +10,83 @@ import { EmployeeModel } from 'src/app/shared/definitions/models/entities.model'
 export class EmployeesTimesheetComponent implements OnInit {
 
   pageData = {
-    gridTimeSheetBoxValue: [] as number[],
-    gridDetailsBoxValue: [] as number[],
     selectedDepartment: '' as string,
     selectedMonth: null as any,
     selectedFromDate: null as any,
     selectedToDate: null as any,
-    // NewFormVisible: false,
-    // EditFormVisible: false,
-    // NewFormButtonOptions: {},
-    // EditDocFormButtonOptions: {},
+    selectedEmployee: {} as EmployeeModel,
+    showTimeSheetDetails: false,
+
+    department: [{
+      id: 1,
+      name: 'اداری',
+    },
+    {
+      id: 2,
+      name: 'تولید',
+    },
+    {
+      id: 3,
+      name: 'طراحی',
+    },
+    {
+      id: 4,
+      name: 'مالی',
+    },
+    {
+      id: 5,
+      name: 'فناوری اطلاعات',
+    },
+    ],
+
+    month: [{
+      id: 1,
+      name: 'فروردین',
+    },
+    {
+      id: 2,
+      name: 'اردیبهشت',
+    },
+    {
+      id: 3,
+      name: 'خرداد',
+    },
+    {
+      id: 4,
+      name: 'تیر',
+    },
+    {
+      id: 5,
+      name: 'مرداد',
+    },
+    {
+      id: 6,
+      name: 'شهریور',
+    },
+    {
+      id: 7,
+      name: 'مهر',
+    },
+    {
+      id: 8,
+      name: 'آبان',
+    },
+    {
+      id: 9,
+      name: 'آذر',
+    },
+    {
+      id: 10,
+      name: 'دی',
+    },
+    {
+      id: 11,
+      name: 'بهمن',
+    },
+    {
+      id: 12,
+      name: 'اسفند',
+    }],
 
     employees: [{
       "id": 1,
@@ -137,9 +204,9 @@ export class EmployeesTimesheetComponent implements OnInit {
     employeeTimeSheet: [{
       "id": 1,
       "date": moment(new Date()).locale('fa').format('YYYY/MM/DD'),
-      "shiftType": "شیفت عصر",
-      "startTime": moment(new Date().getTime()).locale('fa').format('hh:mm'),
-      "endTime": moment(new Date().getTime()).locale('fa').format('hh:mm'),
+      "shiftType": "شیفت صبح",
+      "startTime": "07:30",
+      "endTime": "15:30",
       "charged": 176,
       "timeSheet": "185:55",
       "delay": "10:05",
@@ -149,11 +216,11 @@ export class EmployeesTimesheetComponent implements OnInit {
     }, {
       "id": 2,
       "date": moment(new Date()).locale('fa').format('YYYY/MM/DD'),
-      "shiftType": "شیفت عصر",
-      "startTime": moment(new Date().getTime()).locale('fa').format('hh:mm'),
-      "endTime": moment(new Date().getTime()).locale('fa').format('hh:mm'),
+      "shiftType": "شیفت صبح",
+      "startTime": "08:00",
+      "endTime": "16:00",
       "charged": 176,
-      "timeSheet": "185:55",
+      "timeSheet": "170:30",
       "delay": "10:05",
       "rush": "15:00",
       "overtime": "50:15",
@@ -162,63 +229,15 @@ export class EmployeesTimesheetComponent implements OnInit {
       "id": 3,
       "date": moment(new Date()).locale('fa').format('YYYY/MM/DD'),
       "shiftType": "شیفت عصر",
-      "startTime": moment(new Date().getTime()).locale('fa').format('hh:mm'),
-      "endTime": moment(new Date().getTime()).locale('fa').format('hh:mm'),
+      "startTime": "07:30",
+      "endTime": "15:55",
       "charged": 176,
-      "timeSheet": "185:55",
+      "timeSheet": "200:14",
       "delay": "10:05",
       "rush": "15:00",
       "overtime": "50:15",
       "lowtime": "02:00",
     },],
-
-    customizeEmployeeColumns(columns: any) {
-      columns[0].width = 0;
-      columns[6].width = 0;
-      columns[7].width = 0;
-      columns[8].width = 0;
-      columns[9].width = 0;
-      columns[10].width = 0;
-      columns[11].width = 0;
-      columns[12].width = 0;
-      columns[13].width = 0;
-      columns[14].width = 0;
-      columns[15].width = 0;
-      columns[16].width = 0;
-      columns[17].width = 0;
-      columns[18].width = 0;
-      columns[19].width = 0;
-      columns[20].width = 0;
-      columns[21].width = 0;
-      columns[22].width = 0;
-      columns[23].width = 0;
-      columns[24].width = 0;
-      columns[25].width = 0;
-      columns[26].width = 0;
-      columns[27].width = 0;
-      columns[28].width = 0;
-      columns[29].width = 0;
-      columns[30].width = 0;
-      columns[31].width = 0;
-      columns[32].width = 0;
-
-      columns[1].caption = "کد پرسنلی";
-      columns[2].caption = "نام";
-      columns[3].caption = "نام خانوادگی";
-      columns[4].caption = "محل خدمت";
-      columns[5].caption = "نمایش";
-
-      columns[1].alignment = 'center';
-      columns[2].alignment = 'center';
-      columns[3].alignment = 'center';
-      columns[4].alignment = 'center';
-      columns[5].alignment = 'center';
-
-      columns[5].width = '80px';
-      columns[5].allowFiltering = false;
-
-      // columns[6].cssClass = "text-success";
-    },
 
     customizeTimeSheetEmployeeColumns(columns: any) {
       columns[0].width = 0;
@@ -266,93 +285,19 @@ export class EmployeesTimesheetComponent implements OnInit {
       columns[9].alignment = 'center';
       columns[10].alignment = 'center';
     },
-
-    department: [{
-      id: 1,
-      name: 'اداری',
-    },
-    {
-      id: 2,
-      name: 'تولید',
-    },
-    {
-      id: 3,
-      name: 'طراحی',
-    },
-    {
-      id: 4,
-      name: 'مالی',
-    },
-    {
-      id: 5,
-      name: 'فناوری اطلاعات',
-    },
-    ],
-
-    month: [{
-      id: 1,
-      name: 'فروردین',
-    },
-    {
-      id: 2,
-      name: 'اردیبهشت',
-    },
-    {
-      id: 3,
-      name: 'خرداد',
-    },
-    {
-      id: 4,
-      name: 'تیر',
-    },
-    {
-      id: 5,
-      name: 'مرداد',
-    },
-    {
-      id: 6,
-      name: 'شهریور',
-    },
-    {
-      id: 7,
-      name: 'مهر',
-    },
-    {
-      id: 8,
-      name: 'آبان',
-    },
-    {
-      id: 9,
-      name: 'آذر',
-    },
-    {
-      id: 10,
-      name: 'دی',
-    },
-    {
-      id: 11,
-      name: 'بهمن',
-    },
-    {
-      id: 12,
-      name: 'اسفند',
-    }],
   }
 
-  selectedEmployee= null as any;
-  showTimeSheetDetails = false;
-
-  constructor() { }
-
-  ngOnInit(): void {
-    console.log("ngOnInit >> selectedEmployee", this.selectedEmployee);
+  constructor() {
+    this.onViewTimeSheet = this.onViewTimeSheet.bind(this);
   }
+
+  ngOnInit(): void {}
 
   onViewTimeSheet(e: any) {
-    console.log("e.row.data", e.row.data);
-    this.selectedEmployee = e.row.data;
-    console.log("selectedEmployee", this.selectedEmployee);
-    this.showTimeSheetDetails = true;
+    this.pageData.selectedEmployee = e.row.data;
+    console.log("selectedEmployee", this.pageData.selectedEmployee);
+    this.pageData.showTimeSheetDetails = true;
+    e.event.preventDefault();
   }
 
   departmentChange() {
@@ -426,15 +371,4 @@ export class EmployeesTimesheetComponent implements OnInit {
   fromDateChange() {
     console.log("selectedFromDate", this.pageData.selectedFromDate);
   }
-
-  // showNewDocForm(e: any) {
-  //   console.log("showNewDocForm event:", e);
-  //   this.pageData.NewFormVisible = true;
-  // }
-
-  // onEditEmployee(item: any) {
-  //   this.pageData.editFormData = item;
-  //   console.log("editFormData:", this.pageData.editFormData);
-  //   this.pageData.EditFormVisible = true;
-  // }
 }

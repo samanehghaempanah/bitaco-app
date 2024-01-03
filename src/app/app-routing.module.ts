@@ -12,7 +12,6 @@ import { ProductsCodingComponent } from './pages/private/basic/products-coding/p
 import { SettingComponent } from './pages/private/setting/setting.component';
 import { WorkShiftsComponent } from './pages/private/basic/work-shifts/work-shifts.component';
 import { DesignComponent } from './pages/private/design/design.component';
-import { OrderComponent } from './pages/private/order/order.component';
 import { ProfileComponent } from './pages/private/profile/profile.component';
 import { TasksComponent } from './pages/private/tasks/tasks.component';
 import { HomeComponent } from './pages/public/home/home.component';
@@ -23,8 +22,20 @@ import { PrintComponent } from './pages/private/product/print/print.component';
 import { EmployeesListComponent } from './pages/private/basic/employees/employees-list/employees-list.component';
 import { EmployeesTimesheetComponent } from './pages/private/basic/employees/employees-timesheet/employees-timesheet.component';
 import { EmployeesCalendarComponent } from './pages/private/basic/employees/employees-calendar/employees-calendar.component';
+import { OrderPrintComponent } from './pages/private/order/order-print/order-print.component';
+import { OrderFilmComponent } from './pages/private/order/order-film/order-film.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/order-film',
+    component: OrderFilmComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'pages/order-print',
+    component: OrderPrintComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'home',
     component: HomeComponent,
@@ -105,14 +116,26 @@ const routes: Routes = [
     data: { formType: 'new' }
   },
   {
-    path: 'order',
-    component: OrderComponent,
+    path: 'order/print',
+    component: OrderPrintComponent,
     canActivate: [AuthGuardService],
     data: { formType: 'list' }
   },
   {
-    path: 'order/new',
-    component: OrderComponent,
+    path: 'order/print/new',
+    component: OrderPrintComponent,
+    canActivate: [AuthGuardService],
+    data: { formType: 'new' }
+  },
+  {
+    path: 'order/film',
+    component: OrderFilmComponent,
+    canActivate: [AuthGuardService],
+    data: { formType: 'list' }
+  },
+  {
+    path: 'order/film/new',
+    component: OrderFilmComponent,
     canActivate: [AuthGuardService],
     data: { formType: 'new' }
   },
@@ -180,7 +203,6 @@ const routes: Routes = [
     ProfileComponent,
     AccountComponent,
     SettingComponent,
-    OrderComponent,
     DesignComponent,
     TasksComponent,
     CustomersComponent,
@@ -193,6 +215,8 @@ const routes: Routes = [
     EmployeesListComponent,
     EmployeesTimesheetComponent,
     EmployeesCalendarComponent,
+    OrderPrintComponent,
+    OrderFilmComponent,
   ]
 })
 export class AppRoutingModule { }

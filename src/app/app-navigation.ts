@@ -102,12 +102,32 @@ export const navigation = [
     icon: 'textdocument',
     items: [
       {
-        text: 'ثبت سفارش',
-        path: 'order/new'
+        text: 'سفارشات بسته بندی و چاپ',
+        hasItems: true,
+        items: [
+          {
+            text: 'ثبت سفارش',
+            path: 'order/print/new'
+          },
+          {
+            text: 'سفارش های من',
+            path: 'order/print'
+          }
+        ]
       },
       {
-        text: 'سفارش های من',
-        path: 'order'
+        text: 'سفارشات تولید فیلم',
+        hasItems: true,
+        items: [
+          {
+            text: 'ثبت سفارش',
+            path: 'order/film/new'
+          },
+          {
+            text: 'سفارش های من',
+            path: 'order/film'
+          }
+        ]
       }
     ]
   },

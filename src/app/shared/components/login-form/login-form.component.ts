@@ -24,26 +24,26 @@ export class LoginFormComponent {
     private authenticateService: AuthenticateService) { }
 
   async onSubmit(e: Event) {
+    e.preventDefault();
     this.baseService.loading = true;
     try {
-      e.preventDefault();
       this.loading = true;
       let body = {
         "phoneNumber": this.formData.mobile,
         "password": this.formData.password
       }
       const result = await this.authenticateService.Login(body);
-      // console.log("result", result);
       if (result.isSuccess) {
         this.storageService.Token = result.data;
-        console.log(result.message);
-        // alert(result.message);
         this.loading = false;
-        this.router.navigate(['/']);
+        this.baseService.notify("کاربر گرامی خوش آمدید!", "success");
+        // this.baseService.notify(result.message, "success");
+        // this.router.navigate(['/home']);
+        window.location.href="home";
       }
       else {
-        console.log(result.message);
-        // alert(result.message);
+        this.loading = false;
+        this.baseService.notify(result.message, "error");
       }
       this.loading = false;
     }

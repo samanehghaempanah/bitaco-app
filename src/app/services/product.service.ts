@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 
-let preUrl = 'ApiProduct';
+let preUrl = 'ApiBase';
 
 @Injectable({
     providedIn: 'root'
@@ -9,10 +9,7 @@ let preUrl = 'ApiProduct';
 
 export class ProductService {
 
-    constructor(public baseService: BaseService) { 
-        this.baseService.loading_dialog = true;
-
-    }
+    constructor(public baseService: BaseService) { }
 
     //   async Get(StorageId: number) {
     //     try {
@@ -31,12 +28,10 @@ export class ProductService {
     // }
 
     async POST(body: any) {
-        this.baseService.loading_dialog = true;
         try {
             let result: any = await this.baseService.httpPOST(preUrl + '/modification', body, true);
             return result
         } catch { }
-        this.baseService.loading_dialog = false;
         return null;
     }
 

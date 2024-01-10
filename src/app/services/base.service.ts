@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-
-type Colors =
-  | 'warning'
-  | 'danger'
-  | 'success'
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'dark';
-
-type Positions = 'top' | 'bottom' | 'middle';
+import notify from 'devextreme/ui/notify';
 
 @Injectable({
   providedIn: 'root',
@@ -28,85 +18,81 @@ export class BaseService {
     // devextremeAjax.inject({ sendRequest: sendRequestFactory(http) };
   }
 
-  // loading_Show(status: boolean = false) {
-  //   return status;
-  // }
+  public notify(message: string, type: string) {
+    notify({ message: message, type: type, width: 500, displayTime: 1000, shading: true }, { position: "top center", direction: "down-stack" });
+  }
 
-  // loading_Show(status: boolean = false) {
-  //   return status;
-  // }
+  public get loading() {
+    return this.loading;
+  }
 
-  // loading_Show(status: boolean) {
-  //   setTimeout(() => {
-  //   }, 3000);
-  //   return status;
-  // }
-
-  // async toast(
-  //   message: string,
-  //   color: Colors = 'warning',
-  //   buttonText: string = '',
-  //   duration: number = 2000,
-  //   position: Positions = 'top'
-  // ) {
-  //   let toast = await this.toastCtrl.create({
-  //     message: message,
-  //     duration: duration,
-  //     position: position,
-  //     color: color,
-  //     buttons: buttonText
-  //       ? [{ text: buttonText, role: 'cancel', side: 'start' }]
-  //       : undefined,
-  //   });
-  //   toast.present();
-  // }
+  public set loading(status: boolean) {
+    if (status === true && !document.getElementById('loading-box')) {
+      const el = document.createElement('div');
+      el.id = 'loading-box';
+      el.innerHTML = `
+      <div class="bg-loader"> 
+        <div class="custom-loader"></div>
+      </div>
+      `;
+      document.getElementsByTagName('body')[0].appendChild(el);
+    } else {
+      const loadingElement = document.getElementById('loading-box');
+      if (loadingElement) {
+        setTimeout(() => {
+          document.getElementById('loading-box')?.remove();
+        }, 600);
+      }
+    }
+  }
 
   private getHttpHeader() {
     return {
       // 'Content-Type': 'application/json',
       'accept': 'text/plain',
+      // 'Cookie' : ,
       // 'Access-Control-Allow-Origin': '*',
       // 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
       // 'Access-Control-Allow-Headers': 'Content-Type',
     };
   }
 
-  httpGET(serviceUrl: string, body: any = null, showLoadingPopup: boolean = false, apiRootUrl: string = environment.apiUrl) {
+  httpGET(serviceUrl: string, body: any = null, showLoading: boolean = false, apiRootUrl: string = environment.apiUrl) {
     return new Promise(async (resolve, reject) => {
-      let loading: any; if (showLoadingPopup) {
-        this.loading_dialog = true;
+      let loading: any; if (showLoading) {
+        this.loading = true;
       }
       if (body) {
         let dataParams = new HttpParams().set('serviceData', JSON.stringify(body));
         this.http.get(apiRootUrl + serviceUrl, { headers: this.getHttpHeader(), params: dataParams, }).subscribe((res: any) => {
-          if (showLoadingPopup && loading) {
-            this.loading_dialog = false;
+          if (showLoading && loading) {
+            this.loading = false;
           } resolve(res.Result);
         }, (err) => {
-          if (showLoadingPopup && loading) {
-            this.loading_dialog = false;
+          if (showLoading && loading) {
+            this.loading = false;
           } reject(err);
         });
       }
       else {
         this.http.get(apiRootUrl + serviceUrl, { headers: this.getHttpHeader(), }).subscribe((res: any) => {
-          if (showLoadingPopup && loading) {
-            this.loading_dialog = false;
+          if (showLoading && loading) {
+            this.loading = false;
           } resolve(res);
         }, (err) => {
-          if (showLoadingPopup && loading) {
-            this.loading_dialog = false;
+          if (showLoading && loading) {
+            this.loading = false;
           } reject(err);
         });
       }
     });
   }
 
-  httpPOST(serviceUrl: string, body: any, showLoadingPopup: boolean = false) {
+  httpPOST(serviceUrl: string, body: any, showLoading: boolean = false) {
     return new Promise(async (resolve, reject) => {
       let loading: any;
-      if (showLoadingPopup) {
-        this.loading_dialog = true;
+      if (showLoading) {
+        this.loading = true;
       }
       this.http
         .post(
@@ -116,14 +102,14 @@ export class BaseService {
         )
         .subscribe(
           (res: any) => {
-            if (showLoadingPopup && loading) {
-              this.loading_dialog = false;
+            if (showLoading && loading) {
+              this.loading = false;
             }
             resolve(res);
           },
           (err) => {
-            if (showLoadingPopup && loading) {
-              this.loading_dialog = false;
+            if (showLoading && loading) {
+              this.loading = false;
             }
             reject(err);
           }
@@ -131,11 +117,11 @@ export class BaseService {
     });
   }
 
-  httpPUT(serviceUrl: string, body: any, showLoadingPopup: boolean = false) {
+  httpPUT(serviceUrl: string, body: any, showLoading: boolean = false) {
     return new Promise(async (resolve, reject) => {
       let loading: any;
-      if (showLoadingPopup) {
-        this.loading_dialog = true;
+      if (showLoading) {
+        this.loading = true;
       }
       this.http
         .put(
@@ -145,14 +131,14 @@ export class BaseService {
         )
         .subscribe(
           (res: any) => {
-            if (showLoadingPopup && loading) {
-              this.loading_dialog = false;
+            if (showLoading && loading) {
+              this.loading = false;
             }
             resolve(res.Result);
           },
           (err) => {
-            if (showLoadingPopup && loading) {
-              this.loading_dialog = false;
+            if (showLoading && loading) {
+              this.loading = false;
             }
             reject(err);
           }
@@ -160,11 +146,11 @@ export class BaseService {
     });
   }
 
-  httpDELETE(serviceUrl: string, showLoadingPopup: boolean = false) {
+  httpDELETE(serviceUrl: string, showLoading: boolean = false) {
     return new Promise(async (resolve, reject) => {
       let loading: any;
-      if (showLoadingPopup) {
-        this.loading_dialog = true;
+      if (showLoading) {
+        this.loading = true;
       }
       this.http
         .delete(environment.apiUrl + serviceUrl, {
@@ -172,14 +158,14 @@ export class BaseService {
         })
         .subscribe(
           (res: any) => {
-            if (showLoadingPopup && loading) {
-              this.loading_dialog = false;
+            if (showLoading && loading) {
+              this.loading = false;
             }
             resolve(res.Result);
           },
           (err) => {
-            if (showLoadingPopup && loading) {
-              this.loading_dialog = false;
+            if (showLoading && loading) {
+              this.loading = false;
             }
             reject(err);
           }
@@ -196,34 +182,4 @@ export class BaseService {
     }
     return binary;
   };
-
-  public get loading_dialog() {
-    return this.loading_dialog;
-  }
-
-  public set loading_dialog(v: boolean) {
-    if (v == true) {
-      const el = document.getElementById('loadPanel');
-      // el.id = 'loading-box';
-      //       el.innerHTML = `
-      //         <div class="loading" id="loading">
-      //           <h3>Loading...</h3>
-      //           <dx-button
-      //     icon="undo">
-      // </dx-button>
-      //         </div>
-      //       `;
-      el?.setAttribute("visible", "true");
-      // document.getElementsByTagName('body')[0].appendChild(el);
-    } else {
-      // const loadingElement = document.getElementById('loading');
-      const el = document.getElementById('loadPanel');
-      if (el) {
-        // el.style.transform = 'scale(0)';
-        setTimeout(() => {
-          document.getElementById('loadPanel')?.setAttribute("visible", "true");
-        }, 400);
-      }
-    }
-  }
 }

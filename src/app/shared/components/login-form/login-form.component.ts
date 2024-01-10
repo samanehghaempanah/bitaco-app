@@ -3,8 +3,9 @@ import { Component, NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
-import notify from 'devextreme/ui/notify';
-import { AuthService } from '../../services';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { BaseService } from 'src/app/services/base.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 
 @Component({
@@ -16,18 +17,38 @@ export class LoginFormComponent {
   loading = false;
   formData: any = {};
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private router: Router,
+    private baseService: BaseService,
+    private storageService: StorageService,
+    private authenticateService: AuthenticateService) { }
 
   async onSubmit(e: Event) {
-    e.preventDefault();
-    const { email, password } = this.formData;
-    this.loading = true;
-
-    const result = await this.authService.logIn(email, password);
-    if (!result.isOk) {
+    this.baseService.loading = true;
+    try {
+      e.preventDefault();
+      this.loading = true;
+      let body = {
+        "phoneNumber": this.formData.mobile,
+        "password": this.formData.password
+      }
+      const result = await this.authenticateService.Login(body);
+      // console.log("result", result);
+      if (result.isSuccess) {
+        this.storageService.Token = result.data;
+        console.log(result.message);
+        // alert(result.message);
+        this.loading = false;
+        this.router.navigate(['/']);
+      }
+      else {
+        console.log(result.message);
+        // alert(result.message);
+      }
       this.loading = false;
-      notify(result.message, 'error', 2000);
     }
+    catch { }
+    this.baseService.loading = false;
   }
 
   onCreateAccountClick = () => {
@@ -41,7 +62,7 @@ export class LoginFormComponent {
     DxFormModule,
     DxLoadIndicatorModule
   ],
-  declarations: [ LoginFormComponent ],
-  exports: [ LoginFormComponent ]
+  declarations: [LoginFormComponent],
+  exports: [LoginFormComponent]
 })
 export class LoginFormModule { }

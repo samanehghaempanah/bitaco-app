@@ -9,8 +9,9 @@ import { AppComponent } from './app.component';
 import { SideNavInnerToolbarModule, SideNavOuterToolbarModule, SingleCardModule } from './layouts';
 import { ChangePasswordFormModule, CreateAccountFormModule, FooterModule, LoginFormModule, ResetPasswordFormModule } from './shared/components';
 import { SharedModule } from './shared/config/shared.module';
-import { AppInfoService, AuthService, ScreenService } from './shared/services';
+import { AppInfoService, ScreenService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
+import { AuthenticateService } from './services/authenticate.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { UnauthenticatedContentModule } from './unauthenticated-content';
     HttpClientModule, 
     DxLoadPanelModule],
   providers: [
-    AuthService,
+    AuthenticateService,
     ScreenService,
     AppInfoService,
     HttpClientModule, 

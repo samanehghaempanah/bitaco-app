@@ -2,7 +2,8 @@ import { Component, HostBinding } from '@angular/core';
 import config from 'devextreme/core/config';
 import { locale } from 'devextreme/localization';
 import { BaseService } from './services/base.service';
-import { AppInfoService, AuthService, ScreenService } from './shared/services';
+import { AppInfoService, ScreenService } from './shared/services';
+import { AuthenticateService } from './services/authenticate.service';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,13 @@ export class AppComponent  {
     return Object.keys(this.screen.sizes).filter(cl => this.screen.sizes[cl]).join(' ');
   }
 
-  constructor(private authService: AuthService,public baseService: BaseService , private screen: ScreenService, public appInfo: AppInfoService) { 
+  constructor(private authenticateService: AuthenticateService,public baseService: BaseService , private screen: ScreenService, public appInfo: AppInfoService) { 
     config({ rtlEnabled: true });
     locale("fa-IR");
   }
 
   isAuthenticated() {
-    return this.authService.loggedIn;
+    return this.authenticateService.loggedIn;
   }
 }
 

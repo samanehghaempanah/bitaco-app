@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import notify from 'devextreme/ui/notify';
+import { StorageService } from './storage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,7 @@ export class BaseService {
 
   constructor(
     private http: HttpClient,
+    private storageService: StorageService,
     // private platform: Platform,
     // private device: Device,
     // private alertCtrl: AlertController,
@@ -18,8 +21,14 @@ export class BaseService {
     // devextremeAjax.inject({ sendRequest: sendRequestFactory(http) };
   }
 
+  get authenticated() { if (this.storageService.Token) { return true; } else { return false; } }
+
   public notify(message: string, type: string) {
     notify({ message: message, type: type, width: 500, displayTime: 1000, shading: true }, { position: "top center", direction: "down-stack" });
+  }
+
+  pageUrl(router: Router) {
+    return router?.url?.startsWith('/') ? router.url.substring(1) : router.url;
   }
 
   public get loading() {

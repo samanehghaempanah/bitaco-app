@@ -5,7 +5,7 @@ import { ValidationCallbackData } from 'devextreme-angular/common';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { AuthService } from '../../services';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class ChangePasswordFormComponent implements OnInit {
   formData: any = {};
   recoveryCode: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authenticateService: AuthenticateService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -30,7 +30,7 @@ export class ChangePasswordFormComponent implements OnInit {
     const { password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.changePassword(password, this.recoveryCode);
+    const result = await this.authenticateService.changePassword(password, this.recoveryCode);
     this.loading = false;
 
     if (result.isOk) {

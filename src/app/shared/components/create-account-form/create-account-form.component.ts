@@ -5,9 +5,9 @@ import { ValidationCallbackData } from 'devextreme-angular/common';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { AuthService } from '../../services';
 import { DxRadioGroupModule } from 'devextreme-angular';
 import { DxSelectBoxModule } from 'devextreme-angular';
+import { AuthenticateService } from 'src/app/services/authenticate.service';
 
 
 @Component({
@@ -79,7 +79,7 @@ export class CreateAccountFormComponent {
   radioGroupValue = this.dataSource[0];
   formData: any = {};
 
-  constructor(private authService: AuthService, private router: Router) { 
+  constructor(private authenticateService: AuthenticateService, private router: Router) { 
     this.colCountByScreen = {
       xs: 1,
       sm: 2,
@@ -93,7 +93,7 @@ export class CreateAccountFormComponent {
     const { email, password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.createAccount(email, password);
+    const result = await this.authenticateService.createAccount(email, password);
     this.loading = false;
 
     if (result.isOk) {

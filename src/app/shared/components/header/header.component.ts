@@ -1,12 +1,11 @@
 import { Component, NgModule, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AuthService, IUser } from '../../services';
 import { UserPanelModule } from '../user-panel/user-panel.component';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 
 import { Router } from '@angular/router';
+import { AuthenticateService, IUser } from 'src/app/services/authenticate.service';
 @Component({
   selector: 'app-header',
   templateUrl: 'header.component.html',
@@ -36,14 +35,14 @@ export class HeaderComponent implements OnInit {
     text: 'خروج',
     icon: 'runner',
     onClick: () => {
-      this.authService.logOut();
+      this.authenticateService.logOut();
     }
   }];
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authenticateService: AuthenticateService, private router: Router) { }
 
   ngOnInit() {
-    this.authService.getUser().then((e) => this.user = e.data);
+    this.authenticateService.getUser().then((e) => this.user = e.data);
   }
 
   toggleMenu = () => {

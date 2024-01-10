@@ -30,7 +30,6 @@ export class StorageService {
   // }
   // public get Authorities() { return this.User ? this.User.authority : null; }
 
-
   public set Token(value: any) { localStorage.setItem('bitacoToken', JSON.stringify(value)); }
   public get Token() {
     var token = localStorage.getItem('bitacoToken') ? JSON.parse(localStorage.getItem('bitacoToken') || '{}') : null;

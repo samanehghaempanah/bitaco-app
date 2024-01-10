@@ -16,7 +16,6 @@ import { ProfileComponent } from './pages/private/profile/profile.component';
 import { TasksComponent } from './pages/private/tasks/tasks.component';
 import { HomeComponent } from './pages/public/home/home.component';
 import { ChangePasswordFormComponent, CreateAccountFormComponent, LoginFormComponent, ResetPasswordFormComponent } from './shared/components';
-import { AuthGuardService } from './shared/services';
 import { FilmComponent } from './pages/private/product/film/film.component';
 import { PrintComponent } from './pages/private/product/print/print.component';
 import { EmployeesListComponent } from './pages/private/basic/employees/employees-list/employees-list.component';
@@ -24,6 +23,7 @@ import { EmployeesTimesheetComponent } from './pages/private/basic/employees/emp
 import { EmployeesCalendarComponent } from './pages/private/basic/employees/employees-calendar/employees-calendar.component';
 import { OrderPrintComponent } from './pages/private/order/order-print/order-print.component';
 import { OrderFilmComponent } from './pages/private/order/order-film/order-film.component';
+import { AuthGuardService } from './services/authenticate.service';
 
 const routes: Routes = [
   {

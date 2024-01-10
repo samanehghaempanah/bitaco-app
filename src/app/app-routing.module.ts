@@ -2,7 +2,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DxButtonModule, DxCalendarModule, DxChartModule, DxCheckBoxModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFileUploaderModule, DxFormModule, DxListModule, DxNumberBoxModule, DxPopupModule, DxRadioGroupModule, DxResponsiveBoxModule, DxScrollViewModule, DxSelectBoxModule, DxTabPanelModule, DxTabsModule, DxTextAreaModule, DxTextBoxModule, DxTooltipModule, DxValidatorModule } from 'devextreme-angular';
+import { DxButtonModule, DxCalendarModule, DxChartModule, DxCheckBoxModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFileUploaderModule, DxFormModule, DxListModule, DxLoadPanelModule, DxNumberBoxModule, DxPopupModule, DxRadioGroupModule, DxResponsiveBoxModule, DxScrollViewModule, DxSelectBoxModule, DxTabPanelModule, DxTabsModule, DxTextAreaModule, DxTextBoxModule, DxToastModule, DxTooltipModule, DxValidatorModule } from 'devextreme-angular';
 import { DxiColModule, DxiItemModule, DxiLocationModule, DxiRowModule } from 'devextreme-angular/ui/nested';
 import { AccountComponent } from './pages/private/account/account.component';
 import { CustomersComponent } from './pages/private/basic/customers/customers.component';
@@ -195,7 +195,7 @@ const routes: Routes = [
     DxiItemModule, DxiLocationModule, DxChartModule, DxSelectBoxModule,
     DxTextBoxModule, DxFileUploaderModule, DxListModule, DxDropDownBoxModule,
     DxTextAreaModule, DxTooltipModule, ClipboardModule, DxTabsModule, DxTabPanelModule,
-    DxValidatorModule, DxPopupModule, DxScrollViewModule],
+    DxValidatorModule, DxPopupModule, DxScrollViewModule, DxToastModule, DxLoadPanelModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [

@@ -1,15 +1,16 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import 'devextreme-intl';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
-import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
-import { AuthService, ScreenService, AppInfoService } from './shared/services';
-import { UnauthenticatedContentModule } from './unauthenticated-content';
-import { SharedModule } from './shared/config/shared.module';
-import { DxResponsiveBoxModule } from 'devextreme-angular';
+import { DxLoadPanelModule, DxResponsiveBoxModule } from 'devextreme-angular';
 import { DxiColModule, DxiItemModule, DxiLocationModule, DxiRowModule } from 'devextreme-angular/ui/nested';
+import 'devextreme-intl';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { SideNavInnerToolbarModule, SideNavOuterToolbarModule, SingleCardModule } from './layouts';
+import { ChangePasswordFormModule, CreateAccountFormModule, FooterModule, LoginFormModule, ResetPasswordFormModule } from './shared/components';
+import { SharedModule } from './shared/config/shared.module';
+import { AppInfoService, AuthService, ScreenService } from './shared/services';
+import { UnauthenticatedContentModule } from './unauthenticated-content';
 
 @NgModule({
   declarations: [
@@ -29,11 +30,18 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     SharedModule,
     DxResponsiveBoxModule,
-    DxiRowModule, DxiColModule, DxiItemModule, DxiLocationModule],
+    DxiRowModule, 
+    DxiColModule, 
+    DxiItemModule, 
+    DxiLocationModule, 
+    HttpClientModule, 
+    DxLoadPanelModule],
   providers: [
     AuthService,
     ScreenService,
-    AppInfoService
+    AppInfoService,
+    HttpClientModule, 
+    HttpClient,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 <ng-container *ngIf="isAuthenticated(); else unauthenticated">
   <app-side-nav-outer-toolbar title="{{appInfo.title}}">
-    <router-outlet>
+    <router-outlet id="container">
     </router-outlet>
     <app-footer>
       تمام حق و حقوقات این سایت به هلدینگ {{appInfo.title}} متعلق است.

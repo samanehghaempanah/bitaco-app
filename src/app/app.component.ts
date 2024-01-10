@@ -1,7 +1,8 @@
 import { Component, HostBinding } from '@angular/core';
-import { AuthService, ScreenService, AppInfoService } from './shared/services';
 import config from 'devextreme/core/config';
 import { locale } from 'devextreme/localization';
+import { BaseService } from './services/base.service';
+import { AppInfoService, AuthService, ScreenService } from './shared/services';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent  {
     return Object.keys(this.screen.sizes).filter(cl => this.screen.sizes[cl]).join(' ');
   }
 
-  constructor(private authService: AuthService, private screen: ScreenService, public appInfo: AppInfoService) { 
+  constructor(private authService: AuthService,public baseService: BaseService , private screen: ScreenService, public appInfo: AppInfoService) { 
     config({ rtlEnabled: true });
     locale("fa-IR");
   }
@@ -22,3 +23,4 @@ export class AppComponent  {
     return this.authService.loggedIn;
   }
 }
+

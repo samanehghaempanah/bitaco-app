@@ -1,92 +1,191 @@
 import { Component, OnInit } from '@angular/core';
-import notify from 'devextreme/ui/notify';
 import { Clipboard } from '@angular/cdk/clipboard';
+import notify from 'devextreme/ui/notify';
+import { BaseService } from 'src/app/services/base.service';
+import { AccountService } from 'src/app/services/account.service';
+import * as moment from 'jalali-moment';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
+
 export class AccountComponent implements OnInit {
-  targetElement1: Element;
-  targetElement2: Element;
-  targetElement3: Element;
-  accountType: any = [
-    {
-      id: 1,
-      image: '/assets/images/package/package1.jpg',
-
-    },
-    {
-      id: 2,
-      image: '/assets/images/package/package2.jpg',
-
-    },
-    {
-      id: 3,
-      image: '/assets/images/package/package3.jpg',
-
-    },
-    {
-      id: 4,
-      image: '/assets/images/package/package4.jpg',
-
-    }];
-
-  myAccounts: any = [{
-    key: "حساب سامان",
-    items: [{
-      id: 1,
-      name: "سامان",
-      cart: "6752-6017-0232-3356",
-      account: "037053000",
-      sheba: "IR001245000012536",
-    }]
-  },
-  {
-    key: "حساب ملی",
-    items: [{
-      id: 2,
-      name: "ملی",
-      cart: "6752-6017-0232-3356",
-      account: "037053000",
-      sheba: "IR001245000012536",
-    }]
-  },
-  {
-    key: "حساب ملت",
-    items: [{
-      id: 3,
-      name: "ملت",
-      cart: "6752-6017-0232-3356",
-      account: "037053000",
-      sheba: "IR001245000012536",
-    }]
-  },
-  {
-    key: "حساب صادرات",
-    items: [{
-      id: 4,
-      name: "صادرات",
-      cart: "6752-6017-0232-3356",
-      account: "037053000",
-      sheba: "IR001245000012536",
-    }]
-  }];
-
-  constructor(private clipboard: Clipboard) {
-    this.targetElement1 = document.getElementById('#targetElement1') as Element;
-    this.targetElement2 = document.getElementById('#targetElement2') as Element;
-    this.targetElement3 = document.getElementById('#targetElement3') as Element;
+  formMode = "add";
+  myAccounts: any = [];
+  formData = {
+    id: 0,
+    accountName: '',
+    cardNumber: '',
+    accountNumber: '',
+    shebaNumber: ''
   }
 
+  constructor(private clipboard: Clipboard, public baseService: BaseService, private accountService: AccountService) { }
+
   ngOnInit(): void {
+    this.GetAccountData();
+  }
+
+  async GetAccountData() {
+    this.myAccounts = [];
+    this.baseService.loading = true;
+    try {
+      let data = {
+        'BankAccountNumberID': null,
+        'CustomerID': 100
+      };
+      let model = {
+        "spName": "[Customer].[BankAccountNumber_Select]",
+        "inputParameter": JSON.stringify(data)
+      };
+      let result = await this.accountService.HTTP_Request(model);
+      if (result.isSuccess) {
+        let accounts = JSON.parse(result.data.data);
+        accounts.forEach((item: any) => {
+          this.myAccounts.push({
+            key: "حساب " + item.Bank,
+            items: [{
+              id: item.BankAccountNumberID,
+              name: item.Bank,
+              card: item.CardNumber,
+              account: item.AccountNumber,
+              sheba: item.ShabaNumber,
+              insertDate: item.InsertDate,
+              insertUserName: item.InsertUserName,
+              updateDate: item.UpdateDate,
+              updateUsername: item.UpdateUsername,
+            }]
+          });
+        });
+        console.log("this.myAccounts", this.myAccounts);
+        result.message ?? this.baseService.notify(result.message, "success");
+      }
+      else {
+        this.baseService.notify("خطا در نمایش اطلاعات حساب!", "error");
+        result.message ?? this.baseService.notify(result.message, "error");
+      }
+    }
+    catch { }
+    this.baseService.loading = false;
+  }
+
+  async addAccountData() {
+    this.baseService.loading = true;
+    try {
+      let data = {
+        'CustomerID': 100,
+        'BankAccountNumberID': null,
+        'Bank': this.formData.accountName,
+        'AccountNumber': this.formData.accountNumber,
+        'CardNumber': this.formData.cardNumber,
+        'ShabaNumber': this.formData.shebaNumber
+      };
+      let model = {
+        "spName": "[Customer].[BankAccountNumber_Modification]",
+        "inputParameter": JSON.stringify(data)
+      };
+      let result = await this.accountService.HTTP_Request(model);
+      if (result.isSuccess) {
+        this.formData = {
+          id: 0,
+          accountName: '',
+          cardNumber: '',
+          accountNumber: '',
+          shebaNumber: ''
+        };
+        this.baseService.notify("حساب جدید با موفقیت افزوده شد.", "success");
+        result.message ?? this.baseService.notify(result.message, "success");
+        this.GetAccountData();
+      }
+      else {
+        this.baseService.notify("مشکل در افزودن حساب جدید!", "error");
+        result.message ?? this.baseService.notify(result.message, "error");
+      }
+    }
+    catch { }
+    this.baseService.loading = false;
+  }
+
+  async deleteAccountData(id: number) {
+    this.baseService.loading = true;
+    try {
+      let data = {
+        'CustomerID': 100,
+        'BankAccountNumberID': id,
+        'IsDeleted': 1
+      };
+      let model = {
+        "spName": "[Customer].[BankAccountNumber_Modification]",
+        "inputParameter": JSON.stringify(data)
+      };
+      let result = await this.accountService.HTTP_Request(model);
+      if (result.isSuccess) {
+        this.baseService.notify("حساب مورد نظر با موفقیت حذف شد.", "success");
+        result.message ?? this.baseService.notify(result.message, "success");
+        this.GetAccountData();
+      }
+      else {
+        this.baseService.notify("خطا در حذف حساب موردنظر!", "error");
+        result.message ?? this.baseService.notify(result.message, "error");
+      }
+    }
+    catch { }
+    this.baseService.loading = false;
+  }
+
+  async editAccountData() {
+    this.baseService.loading = true;
+    try {
+      let data = {
+        'CustomerID': 100,
+        'BankAccountNumberID': this.formData.id,
+        'Bank': this.formData.accountName,
+        'AccountNumber': this.formData.accountNumber,
+        'CardNumber': this.formData.cardNumber,
+        'ShabaNumber': this.formData.shebaNumber
+      };
+      let model = {
+        "spName": "[Customer].[BankAccountNumber_Modification]",
+        "inputParameter": JSON.stringify(data)
+      };
+      let result = await this.accountService.HTTP_Request(model);
+      if (result.isSuccess) {
+        this.formData = {
+          id: 0,
+          accountName: '',
+          cardNumber: '',
+          accountNumber: '',
+          shebaNumber: ''
+        };
+        this.formMode = "add";
+        this.baseService.notify("حساب موردنظر با موفقیت بروز رسانی شد.", "success");
+        result.message ?? this.baseService.notify(result.message, "success");
+        this.GetAccountData();
+      }
+      else {
+        this.baseService.notify("خطا در بروز رسانی حساب موردنظر!", "error");
+        result.message ?? this.baseService.notify(result.message, "error");
+      }
+    }
+    catch { }
+    this.baseService.loading = false;
+  }
+
+  handleEditAccount(acc: any) {
+    this.formMode = "edit";
+    this.formData.id = acc.id;
+    this.formData.accountName = acc.name;
+    this.formData.cardNumber = acc.card;
+    this.formData.accountNumber = acc.account;
+    this.formData.shebaNumber = acc.sheba;
   }
 
   showCopyToClipboard(item: string, copyContent: string) {
     let selectedItem: string = '';
     switch (item) {
-      case "copyCart":
+      case "copyCard":
         selectedItem = "شماره کارت";
         break;
       case "copyAccount":
@@ -111,4 +210,24 @@ export class AccountComponent implements OnInit {
     );
     this.clipboard.copy(copyContent)
   }
+
+  // async SendAccountData() {
+  //   try {
+  //     let inputParameter = JSON.stringify(this.formData);
+  //     console.log("inputParameter:", inputParameter);
+  //     let model = {
+  //       "spName": "Product.Product_Modification",
+  //       "inputParameter": inputParameter
+  //     };
+  //     let result = await this.productService.HTTP_Request(model);
+  //     if (result) {
+  //       console.log("result", result);
+  //     }
+  //     else {
+  //       // this.baseService.toast('لطفا مقدار صحیح برای بارکد وارد کنید!', 'danger');
+  //       console.log("you get an error!");
+  //     }
+  //   }
+  //   catch { }
+  // }
 }

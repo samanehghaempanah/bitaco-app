@@ -76,6 +76,10 @@ i {
     font-size: 20px;
 }
 
+::ng-deep .text-info i {
+    color: #2563eb !important;
+}
+
 @media screen and (max-width: 768px) {
     .w-md-100 {
         width: 100% !important;

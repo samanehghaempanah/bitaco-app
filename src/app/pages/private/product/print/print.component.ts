@@ -6,6 +6,8 @@ import notify from 'devextreme/ui/notify';
 import 'devextreme/data/odata/store';
 import * as moment from 'jalali-moment';
 import { ColorModel, DesignModel } from 'src/app/shared/definitions/models/entities.model';
+import { BaseService } from 'src/app/services/base.service';
+
 
 @Component({
   selector: 'app-print',
@@ -18,8 +20,9 @@ export class PrintComponent implements OnInit {
   selectedRowsData: any = [];
   finalData: any = [];
   isRowsSelected = false;
-  creationDate: Date = new Date();
   imageView = false;
+
+  boobinSize: number = 0;
 
   pageData = {
     formType: 'list',
@@ -63,6 +66,11 @@ export class PrintComponent implements OnInit {
   viewDocFile = '';
 
   productData = {
+    basicInfo: { productId: '',creationDate: moment(new Date()).format('DD-MMM-YYYY'), persianName: '', latinName: '', customerId: '', productType: '', description: '' },
+    boobinSize: 0,
+    rollDiameter: 0,
+    rollSize: 0,
+    rollWeight: 0,
     packageType: 0,
   };
 
@@ -771,7 +779,7 @@ export class PrintComponent implements OnInit {
 
   selectedDesign = this.designsTabs[0];
 
-  constructor(private route: ActivatedRoute, private ref: ChangeDetectorRef) {
+  constructor(private route: ActivatedRoute, private baseService: BaseService, private ref: ChangeDetectorRef) {
 
     this.tabContent = this.tabs[0].content;
     this.designTabContent = this.designsTabs[0]?.content;
@@ -958,7 +966,10 @@ export class PrintComponent implements OnInit {
   }
 
   onSubmitNewProduct() {
-    console.log("order form submited", this.productData);
+    if (this.productData.rollDiameter === 0 && this.productData.rollSize === 0 && this.productData.rollWeight === 0) {
+      this.baseService.notify("لطفا یکی از فیلدهای قطر رول یا متراژ رول یا وزن رول را وارد کنید!", "error");
+    }
+    console.log("productData >> onSubmitNewProduct", this.productData);
   }
 
   customizeColumns(columns: any) {
@@ -1147,8 +1158,8 @@ export class PrintComponent implements OnInit {
 
   showNewColdMapForm(e: any) {
     console.log("showNewDocForm event:", e);
-    this.newDocFormData.type= 'نقشه کلدسیل';
-    this.tabContent='tab8';
+    this.newDocFormData.type = 'نقشه کلدسیل';
+    this.tabContent = 'tab8';
     this.pageData.NewDocFormVisible = true;
   }
 
@@ -1167,5 +1178,12 @@ export class PrintComponent implements OnInit {
 
     e.preventDefault();
   };
-}
 
+  nullChecker({ value }: any) {
+    // debugger
+    if (value === null || value === 0) {
+      return false;
+    }
+    else return true;
+  }
+}

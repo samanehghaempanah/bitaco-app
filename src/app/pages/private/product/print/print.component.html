@@ -9,12 +9,12 @@
                 <div class="d-flex flex-column">
                     <div class="d-flex justify-between flex-md-column my-3">
                         <div class="order-md-2 d-flex items-center">
-                            <dx-text-box class="my-2" name="id" label="شناسه" labelMode="floating">
+                            <dx-text-box class="my-2" name="productId" label="شناسه" labelMode="floating" [(value)]="productData.basicInfo.productId">
                             </dx-text-box>
                             <span class="me-3">PR</span>
                         </div>
                         <dx-text-box class="order-md-1 my-2" name="creationDate" label="تاریخ ایجاد طرح"
-                            labelMode="floating" [readOnly]="true" value="{{creationDate | date:'YYYY/MM/dd'}}">
+                            labelMode="floating" [readOnly]="true" [(value)]="productData.basicInfo.creationDate">
                         </dx-text-box>
                         <!-- <div class="d-flex flex-column">
                             <p class="mb-0">
@@ -26,25 +26,25 @@
                         </div> -->
                     </div>
                     <div class="d-flex flex-md-column column-gap my-3">
-                        <dx-text-box class="my-2" name="persianName" label="نام فارسی محصول" labelMode="floating">
+                        <dx-text-box class="my-2" name="persianName" label="نام فارسی محصول" labelMode="floating" [(value)]="productData.basicInfo.persianName">
                         </dx-text-box>
-                        <dx-text-box class="my-2" name="latinName" label="نام انگلیسی محصول" labelMode="floating">
+                        <dx-text-box class="my-2" name="latinName" label="نام انگلیسی محصول" labelMode="floating" [(value)]="productData.basicInfo.latinName">
                         </dx-text-box>
                         <!-- <dx-check-box class="my-2" text="چاپ" width="200px" class="lable-box">
                         </dx-check-box> -->
                     </div>
                     <div class="d-flex flex-md-column column-gap my-3">
                         <div class="d-flex items-center">
-                            <dx-text-box class="my-2" name="customerId" label="شناسه مشتری" labelMode="floating">
+                            <dx-text-box class="my-2" name="customerId" label="شناسه مشتری" labelMode="floating" [(value)]="productData.basicInfo.customerId">
                             </dx-text-box>
                         </div>
-                        <dx-select-box placeholder="" class="my-2" [dataSource]="productType" valueExpr="id"
-                            displayExpr="text" label="تیپ محصول" labelMode="floating">
+                        <dx-select-box placeholder="" class="my-2" [dataSource]="productType" valueExpr="text"
+                            displayExpr="text" label="تیپ محصول" labelMode="floating" [(value)]="productData.basicInfo.productType">
                         </dx-select-box>
                     </div>
                     <div class="d-flex flex-column my-3">
                         <dx-text-area class="my-2" name="description" [maxLength]="500" label="توضیحات"
-                            labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true"
+                            labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true" [(value)]="productData.basicInfo.description"
                             height="100px">
                         </dx-text-area>
                     </div>
@@ -307,8 +307,8 @@
             <hr>
             <div class="d-flex flex-column column-gap my-3 w-25 w-md-100">
                 <div class="d-flex items-center">
-                    <dx-number-box class="my-2" name="matteThreatment" [step]="1" [min]="0" [max]="1000"
-                        label="تریتمنت" format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
+                    <dx-number-box class="my-2" name="matteThreatment" [step]="1" [min]="0" [max]="1000" label="تریتمنت"
+                        format="#,##0.00" labelMode="floating" [showSpinButtons]="true"
                         [disabled]="!pageData.threatmentIsEnabled">
                     </dx-number-box>
                     <span class="me-3">dyne</span>
@@ -328,8 +328,8 @@
                     [disabled]="!pageData.coldIsEnabled">
                 </dx-number-box>
                 <div class="d-flex ">
-                    <dx-button [disabled]="!pageData.coldIsEnabled" text="آپلود فایل نقشه کلدسیل" icon="add" type="default"
-                        (onClick)="showNewColdMapForm($event)" class="my-2 mt-4">
+                    <dx-button [disabled]="!pageData.coldIsEnabled" text="آپلود فایل نقشه کلدسیل" icon="add"
+                        type="default" (onClick)="showNewColdMapForm($event)" class="my-2 mt-4">
                     </dx-button>
                 </div>
             </div>
@@ -384,15 +384,19 @@
                     <div class="d-flex flex-column my-3">
                         <dx-number-box type="decimal" class="my-4" name="boobinSize"
                             [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="سایز بوبین"
-                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always">
+                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always"
+                            [(value)]="productData.boobinSize">
                             <dx-validator>
                                 <dxi-validation-rule type="required" message="فیلد اجباری است!">
+                                </dxi-validation-rule>
+                                <dxi-validation-rule type="custom" message="امکان ارسال مقدار صفر وجود ندارد!"
+                                    [validationCallback]="nullChecker">
                                 </dxi-validation-rule>
                             </dx-validator>
                         </dx-number-box>
                         <dx-number-box type="decimal" class="my-4" name="rollDiameter"
                             [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="قطر رول"
-                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always">
+                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always" [(value)]="productData.rollDiameter">
                             <dx-validator>
                                 <dxi-validation-rule type="required" message="فیلد اجباری است!">
                                 </dxi-validation-rule>
@@ -400,7 +404,7 @@
                         </dx-number-box>
                         <dx-number-box type="decimal" class="my-4" name="rollSize" [disabled]="!pageData.coldIsEnabled"
                             [step]="1" [min]="0" [max]="1000" label="متراژ رول" labelMode="floating"
-                            [showSpinButtons]="true" validationMessageMode="always">
+                            [showSpinButtons]="true" validationMessageMode="always" [(value)]="productData.rollSize">
                             <dx-validator>
                                 <dxi-validation-rule type="required" message="فیلد اجباری است!">
                                 </dxi-validation-rule>
@@ -410,7 +414,7 @@
                     <div class="d-flex flex-column my-3">
                         <dx-number-box type="decimal" class="my-4" name="rollWeight"
                             [disabled]="!pageData.coldIsEnabled" [step]="1" [min]="0" [max]="1000" label="وزن رول"
-                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always">
+                            labelMode="floating" [showSpinButtons]="true" validationMessageMode="always" [(value)]="productData.rollWeight">
                             <dx-validator>
                                 <dxi-validation-rule type="required" message="فیلد اجباری است!">
                                 </dxi-validation-rule>
@@ -535,8 +539,8 @@
                         <!-- <td>{{document.data.path}}</td> -->
                         <td>{{document.data.description}}</td>
                         <td class="text-center">
-                            <img *ngIf="document.data.suffix?.length>0" [src]="'/assets/images/file-type/'+document.data.suffix+'.png'"
-                                class="fileTypeImage" />
+                            <img *ngIf="document.data.suffix?.length>0"
+                                [src]="'/assets/images/file-type/'+document.data.suffix+'.png'" class="fileTypeImage" />
                         </td>
                         <td>{{document.data.date}}</td>
                         <td>{{document.data.hour}}</td>
@@ -587,9 +591,10 @@
                             labelMode="floating" [minHeight]="50" [maxHeight]="300" [autoResizeEnabled]="true"
                             height="100px" [(value)]="newDocFormData.description">
                         </dx-text-area>
-                        <dx-file-uploader (onValueChanged)="newDocFilesUploaded($event)" [value]="newDocFormData.fileData"
-                            [allowedFileExtensions]="docFileExtention" [allowCanceling]="true"
-                            selectButtonText="بارگزاری فایل جدید" labelText="یا فایل را در این قسمت بکشید...">
+                        <dx-file-uploader (onValueChanged)="newDocFilesUploaded($event)"
+                            [value]="newDocFormData.fileData" [allowedFileExtensions]="docFileExtention"
+                            [allowCanceling]="true" selectButtonText="بارگزاری فایل جدید"
+                            labelText="یا فایل را در این قسمت بکشید...">
                         </dx-file-uploader>
                         <div *ngIf="newDocFormData.fileData.length>0" class="text-center my-4">
                             <img [src]="newDocFormData.path" style="width: 200px;" />
